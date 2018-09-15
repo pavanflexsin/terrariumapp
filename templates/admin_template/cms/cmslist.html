@@ -1,0 +1,138 @@
+{% extends "layout/adminlayout.html" %}
+{% load staticfiles %}
+
+{% block title %} Admin | Cms List {% endblock %}
+
+
+{% block content %}
+ {% load i18n %}
+<div class="content-wrapper">
+  <section class="content-header">
+    <h1>
+      Cms  List
+    </h1>
+    <ol class="breadcrumb">
+      <li><a href="{% url 'admindashboard' %}"><i class="fa fa-dashboard"></i>Admin</a></li>
+      <li class="active"><a href="{% url 'cmslist' %}">Cms List</a></li>
+    </ol>
+  </section>
+  <section class="content">
+                <div class="row">
+                  <div class="col-xs-12">
+                    <div class="box">
+                      <div class="box-body">
+                        <div class="row">
+                        <form method="get" id="customersearch" action="">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                <select class="form-control" name="language" onchange='this.form.submit()'>
+                                <option value="">Select Language</option>
+                                    {% get_current_language as LANGUAGE_CODE %}
+                                    {% get_available_languages as LANGUAGES %}
+                                    {% get_language_info_list for LANGUAGES as languages %}
+                                    {% for language in languages %}
+                                      <option class="form-control" value="{{ language.code }}" 
+                                      {% if request.GET.language == language.code %} selected {% endif %}>
+                                        {% if language.code == "en" %}
+                                            English
+                                        {% elif language.code == "zh-hans" %}
+                                          Simplified Chinese
+                                        {% else %}
+                                          Traditional Chinese
+                                        {% endif %}
+                                      </option>
+                                  {% endfor %}
+                                  </select>
+                                </div>
+                            </div>
+                              <div class="col-md-6">
+                              <!-- <button type="submit" class="btn btn-primary">Search</button> -->
+                                <a href="{% url 'addcms' %}" class="btn btn-primary">Add Cms</a>
+                              </div>
+                          </div>
+                        </form>
+                      <div id="html">
+                           <table id="example2" class="table table-bordered table-hover">
+                          <thead>
+                          <tr>
+                            <th>Sr. No</th>
+                            <th>Title</th>
+                            <th>Heading</th>
+                            <th>Content</th>
+                            <th>Language</th>
+                            <th>Updated </th>
+                            <th>Action</th>
+                          </tr>
+                          </thead>
+                          <tbody>
+                          {% if  responselistquery %}
+                            {% for emailtem in responselistquery %}
+                              <tr id="blog_{{blog.id}}">
+                                <td>{{forloop.counter}}</td>
+                                <td>{{emailtem.title|linebreaks|truncatechars:25}}</td>
+                                <td>{{emailtem.heading|linebreaks|truncatechars:25}}</td>
+                                <td>
+                                {% autoescape off %} 
+                                    {{ emailtem.content|striptags|truncatechars:50}} 
+                                {% endautoescape %}"
+                                </td>
+
+                                  {% if emailtem.language == "en" %}
+                                    <td>English</td>
+                                  {% elif emailtem.language == "zh-hans"  %}
+                                    <td>Simplified Chinese</td>
+                                  {% else %}
+                                  <td>Traditional Chinese</td>
+                                  {% endif %}
+                                  <td>{{emailtem.updated }}</td>
+                                <td>
+                                <a href="{% url 'editcms' emailtem.id %}" class="btn btn-primary">Edit</a>
+                                </td>
+                              </tr>
+                            {% endfor %}
+                          {%else%}
+                          <tr colspan="10" style="text-align: center;"><td colspan="10">No Record Found</td></tr>
+                          {% endif %}
+                          </tbody>
+                        </table>
+                      </div>
+
+                    <div class="col-sm-7">
+                {% if responselistquery.has_other_pages %}
+                    <div class="dataTables_paginate paging_simple_numbers"  style="text-align: right;">
+                      <ul class="pagination">
+                      {% if responselistquery.has_previous %}
+                        <li class="paginate_button previous"><a href="?page={{ responselistquery.previous_page_number }}&language={{request.GET.language}}" class="npLink">Prev</a></li>
+                      {% else %}
+                        <li class="paginate_button "><a href="javascript:;" class="paginate_button previous disabled npLink">Prev</a></li>
+                      {% endif %}
+                      {% if responselistquery.number|add:'-4' > 1 %}
+                        <li class="paginate_button "><a href="?page={{ responselistquery.number|add:'-5' }}&language={{request.GET.language}}">{{ responselistquery.number|add:'-5' }}</a></li>
+                      {% endif %}
+                      {% for i in responselistquery.paginator.page_range %}
+                          {% if responselistquery.number == i %}
+                            <li class="paginate_button "><a href="javascript:;" class="active">{{i}}</a></li>
+                          {% elif i > responselistquery.number|add:'-5' and i < responselistquery.number|add:'5' %}
+                            <li class="paginate_button "><a href="?page={{ i }}&language={{request.GET.language}}" >{{i}}</a></li>
+                          {% endif %}
+                      {% endfor %}
+                      {% if responselistquery.paginator.num_pages > responselistquery.number|add:'4' %}
+                       <li class="paginate_button "> <a href="?page={{ responselistquery.number|add:'5' }}&language={{request.GET.language}}">...</a></li>
+                      {% endif %}
+                      {% if responselistquery.has_next %}
+                        <li class="paginate_button next "><a href="?page={{ responselistquery.next_page_number}}&language={{request.GET.language}}" class="active">Next</a></li>
+                      {% else %}
+                        <li class="paginate_button next disabled"><a href="javascript:;" class="npLink">Next</a></li>
+                      {% endif %}
+                      </ul>
+                    </div>
+                {% endif %}
+                    </div>
+                    </div>
+                    </div>
+                  </div>
+            </div>
+  </section>
+</div>
+{% include "layout/adminmessage.html" %}
+{% endblock %}

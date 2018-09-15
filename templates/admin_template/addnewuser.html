@@ -1,0 +1,69 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link rel="icon" href="{% static 'website/images/favicon.ico' %}" type="image/gif" sizes="16x16">
+  <title> Admin | New User </title>
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <link rel="stylesheet" href="{% static 'admin/bower_components/bootstrap/dist/css/bootstrap.min.css' %}">
+  <link rel="stylesheet" href="{% static 'admin/dist/css/AdminLTE.min.css' %}">
+  <link rel="stylesheet" href="{% static 'admin/plugins/iCheck/square/blue.css' %}">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+  <link rel="stylesheet" href="{% static 'admin/sweetalert/sweetalert.css' %}">
+ <link rel="stylesheet" href="{% static 'admin/admincustom/admin.css' %}">
+</head>
+<body class="hold-transition login-page backimage">
+<div class="login-box">
+  <div class="login-logo">
+    <a href="javascript:;">
+    <b>New User Registered</b>
+    </a>
+  </div>
+  <div class="login-box-body">
+  <div>
+    <h1 style="text-align: center; margin-top: -16px;">Register</h1>
+    </div>
+    <div style="margin-top: 24px;">
+    <form action="" method="post" id="adminuserregistration">
+      {% csrf_token %}
+      <div class="form-group has-feedback">
+        <input type="text" class="form-control" placeholder="Enter your user name" name="username" id="username">
+      </div>
+      <div class="form-group has-feedback">
+        <input type="password" class="form-control" placeholder="Enter your password" name="password" id="password">
+      </div>
+
+      <div class="form-group has-feedback">
+        <input type="password" class="form-control" placeholder="Enter your confirm password" name="conpassword" id="confirmpassword">
+      </div>
+
+      <div class="form-group has-feedback">
+        <input type="text" class="form-control" placeholder="Enter your email" name="emailid">
+      </div>
+
+      <div class="row">
+      <div class="col-xs-4">
+        <a href="{% url 'adminlogin' %}" class="btn btn-primary btn-block btn-flat" id="bcklogin">Go Login</a>
+        </div>
+        <div class="col-xs-4">
+          <button type="submit" id="adminloginbtn"
+          class="btn btn-primary btn-block btn-flat">Submit</button>
+        </div>
+      </div>
+    </form>
+    <input type="hidden" id="emailexiturl" value="{{site_url}}{% url 'checkemail' %}">
+    <input type="hidden" id="emaileditexiturl" value="{{site_url}}{% url 'checkeditemail' %}">
+    <input type="hidden" id="usernameid" value="{{site_url}}{% url 'username' %}">
+    </div>
+  </div>
+</div>
+<script src="{% static 'admin/bower_components/jquery/dist/jquery.min.js' %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.17.0/dist/jquery.validate.min.js"></script>
+<script src="{% static 'admin/admincustom/jquery.cookie.js' %}"></script>
+<script src="{% static 'admin/admincustom/validation.js' %}"></script>
+<script src="{% static 'admin/plugins/iCheck/icheck.min.js' %}"></script>
+
+    {% include "layout/adminmessage.html" %}
+</body>
+</html>

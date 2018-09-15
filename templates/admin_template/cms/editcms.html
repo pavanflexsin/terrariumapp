@@ -1,0 +1,52 @@
+{% extends "layout/adminlayout.html" %}
+{% load staticfiles %}
+
+{% block title %} Admin | Edit Cms {% endblock %}
+
+{% block content %}
+
+<div class="content-wrapper">
+  <section class="content">
+    <div class="box box-default">
+      <div class="box-header with-border">
+        <h3 class="box-title">Edit Cms</h3>
+      </div>
+      <div class="box-body">
+        <div class="row">
+          <form method="POST" id="addcms" action="" enctype="multipart/form-data">
+          {% csrf_token %}
+            <div class="col-md-6">
+            <div class="form-group">  
+              <div class="form-group">
+                <label>Title</label>&nbsp;<span style="color: red">*</span>
+                <input type="text" name="title" class="form-control" maxlength="150" placeholder="Enter your  title" value="{{editcms.title}}">
+              </div>
+              <div class="form-group">
+                <label>Heading</label>&nbsp;<span style="color: red">*</span>
+                <input type="text" name="heading" class="form-control" maxlength="150" placeholder="Enter your  heading" value="{{editcms.heading}}">
+              </div>
+
+              <div class="form-group">
+                <label>Content</label>&nbsp;<span style="color: red">*</span>
+                <textarea name="content" id="content" class="form-control" placeholder="Enter your content">{{editcms.content}}</textarea>
+              </div>
+              <div class="form-group">
+                <button type="submit" class="btn btn-primary" id="addcmsbtn">Save</button>
+              </div>
+          </div>
+            {% csrf_token %}
+          </form>
+        </div>
+      </div>
+      <div class="box-footer">
+        Note: <span style="color: red">*</span> is a mandatory elements
+      </div>
+    </div>
+  </section>
+</div>
+{% include "layout/adminmessage.html" %}
+<script type="text/javascript">
+  CKEDITOR.replace('content',{allowedContent :true})
+  CKEDITOR.config.extraPlugins = 'colorbutton,font';
+</script>
+{% endblock %}

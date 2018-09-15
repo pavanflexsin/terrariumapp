@@ -1,0 +1,415 @@
+{% load static %}
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="icon" href="{% static 'website/images/favicon.ico' %}" type="image/gif" sizes="16x16">
+
+<title>
+  {% block title %} 
+  {% endblock %}
+</title>
+
+<link rel="stylesheet" href="{% static 'admin/bower_components/bootstrap/dist/css/bootstrap.min.css' %}">
+<link rel="stylesheet" href="{% static 'admin/bower_components/font-awesome/css/font-awesome.min.css' %}">
+<link rel="stylesheet" href="{% static 'admin/bower_components/Ionicons/css/ionicons.min.css' %} ">
+<link rel="stylesheet" href="{% static 'admin/dist/css/AdminLTE.min.css' %}">
+<link rel="stylesheet" href="{% static 'admin/dist/css/skins/_all-skins.min.css' %}">
+<link rel="stylesheet" href="{% static 'admin/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css' %}">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+<link rel="stylesheet" href="{% static 'admin/sweetalert/sweetalert.css' %}">
+<link rel="stylesheet" href="{% static 'website/css/ion.rangeSlider.css' %}">
+<script src="{% static 'admin/bower_components/ckeditor/ckeditor.js' %} "></script>
+<link rel="stylesheet" href="{% static 'admin/countrycode/css/intlTelInput.css' %}">
+<link href="/static/admin/datepicker/bootstrap/css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
+<link rel="stylesheet" href="{% static 'admin/admincustom/admin.css' %}">
+<link href="{% static 'website/tagit/css/jquery.tagit.css' %}" rel="stylesheet" type="text/css">
+<link href="{% static 'website/tagit/css/tagit.ui-zendesk.css' %}" rel="stylesheet" type="text/css">
+</head>
+<body class="hold-transition skin-blue sidebar-mini ">
+    <div class="wrapper">
+
+    <header class="main-header">
+    <!-- Logo -->
+    <a href="{% url 'admindashboard' %}" class="logo">
+      <span class="logo-mini"><b>T</b>A</span>
+      <span class="logo-lg"><b>TV APP</b></span>
+    </a>
+    <nav class="navbar navbar-static-top">
+      <a href="javascript:;" class="sidebar-toggle" data-toggle="push-menu" role="button">
+        <span class="sr-only">Toggle navigation</span>
+      </a>
+
+      <div class="navbar-custom-menu">
+
+        <ul class="nav navbar-nav">
+          <li class="dropdown user user-menu">
+            <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
+            {% if request.user.profile_pic1 == ""%}
+                <img src="/static/admin/dist/img/boxed-bg.jpg" class="user-image" alt="User Image">
+              {% else %}
+                <img src="/media/{{request.user.profile_pic1}}" class="user-image" alt="User Image">
+              {% endif %}
+              <span class="hidden-xs">{{request.user.first_name|title|truncatechars:10}}  
+
+              {{request.user.last_name|title|truncatechars:10}}</span>
+            </a>
+            <ul class="dropdown-menu">
+              <li class="user-header">
+              {% if request.user.profile_pic1 == ""%}
+                <img src="/static/admin/dist/img/boxed-bg.jpg" class="img-circle" alt="User Image">
+           {% else %}
+              <img src="/media/{{request.user.profile_pic1}}" class="img-circle" alt="User Image">
+              {% endif %}
+                <p>
+                {{request.user.first_name|title|truncatechars:10}}  {{request.user.last_name|title|truncatechars:10}}
+                </p>
+              </li>
+
+              <li class="user-body">
+              <div class="pull-left">
+                  <a href="{% url 'adminchangepassword' %}" class="btn btn-default btn-flat">Change Password</a>
+                </div>
+              </li>
+
+              <li class="user-footer">
+                <div class="pull-left">
+                  <a href="{% url 'updateadminprofile' %}" class="btn btn-default btn-flat">Update Profile</a>
+                </div>
+                <div class="pull-right">
+                  <a href="{% url 'adminlogout' %}" class="btn btn-default btn-flat">Sign out</a>
+                </div>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </nav>
+</header>
+  <!-- Left side column. contains the logo and sidebar -->
+  <aside class="main-sidebar">
+    <!-- sidebar: style can be found in sidebar.less -->
+    <section class="sidebar">
+      <!-- Sidebar user panel -->
+      <div class="user-panel">
+        <div class="pull-left image">
+          {% if request.user.profile_pic1 == ""%}
+                <img src="/static/admin/dist/img/boxed-bg.jpg" class="img-circle" alt="User Image">
+         {% else %}
+              <img src="/media/{{request.user.profile_pic1}}" class="img-circle" alt="User Image">
+              {% endif %}
+        </div>
+        <div class="pull-left info">
+          <p>{{request.user.first_name|title|truncatechars:15}}  {{request.user.last_name|title|truncatechars:10}}</p>
+        </div>
+      </div>
+      <ul class="sidebar-menu" data-widget="tree">
+
+      <li class="">
+        <a href="{% url 'admindashboard' %}">
+          <i class="fa fa-dashboard"></i>Dashboard
+        </a>
+      </li>
+      <li class="treeview">
+        <a href="javascript:;">
+          <i class="fa fa-fw fa-list"></i><span> User Management</span>
+          <span class="pull-right-container">
+            <i class="fa fa-angle-left pull-right"></i>
+          </span>
+        </a>
+        <ul class="treeview-menu">
+          <li class="active"><a href="#">
+              <i class="fa fa-circle-o">
+              </i>User List</a>
+          </li>
+
+        </ul>
+      </li>
+
+      </ul>
+    </section>
+  </aside>
+  {% block content %}
+  {% endblock %}
+  <footer class="main-footer">
+    <div class="pull-right hidden-xs">
+      <b></b> 
+    </div>
+    <strong>Copyright &copy; 2018 -2020 <a href="javascript:;"> TutorScreens</a>. </strong> All rights
+    reserved.
+  </footer>
+
+<aside class="control-sidebar control-sidebar-dark">
+  <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
+      <li><a href="javascript:;control-sidebar-home-tab" data-toggle="tab"><i class="fa fa-home"></i></a></li>
+      <li><a href="javascript:;control-sidebar-settings-tab" data-toggle="tab"><i class="fa fa-gears"></i></a></li>
+  </ul>
+</aside>
+<div class="control-sidebar-bg"></div>
+</div>
+
+
+<!-- Change Password Popup -->
+
+<div class="modal fade" id="squarespaceModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+      <h3 class="modal-title" id="lineModalLabel">Change Password</h3>
+    </div>
+    <div class="modal-body">
+      
+            <!-- content goes here -->
+      <form method="post" action="/admin/userchangepassword/" id="userchangepwd">
+        {% csrf_token %}
+        <div class="form-group">
+          <label for="exampleInputEmail1">New Password</label>&nbsp;<span style="color: red">*</span>
+          <input type="password" class="form-control"  name="password" id="password" placeholder="Enter your new password">
+          <input type="hidden" name="userid" id="changeuserid">
+        </div>
+        <div class="form-group">
+          <label for="exampleInputPassword1">Confirm Password</label>&nbsp;<span style="color: red">*</span>
+          <input type="password" class="form-control" name="confpassword" id="confpassword" placeholder="Please enter your confirm password">
+        </div>
+        <button type="submit" class="btn btn-default" id="userchangepwdbtn">Submit</button>
+      </form>
+    </div>
+  </div>
+  </div>
+</div>
+<!-- End change password Popup -->
+
+<div id="myModal" class="modal fade in" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+
+      <div class="modal-header">
+      <button type="button" class="close closepoup" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">×</span></button>
+        <h4 class="modal-title">Message</h4>
+      </div>
+      <div class="modal-body addscroll">
+        <p id="messagetext"></p>
+      </div>
+      <div class="modal-footer">>
+      </div>
+    </div>
+    <input type="hidden" id="emailexiturl" value="{{site_url}}{% url 'checkemail' %}">
+    <input type="hidden" id="emaileditexiturl" value="{{site_url}}{% url 'checkeditemail' %}">
+  </div>
+</div>
+
+<!-- Popup message -->
+<div id="casedetail" class="modal fade in" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+<div class="modal-header">
+        <h4 class="modal-title">Case Detail</h4>
+                <div class="padd30">
+                <div class="form-group">
+                <label for="exampleInputEmail1">Private or Group Lessons</label>
+                  &nbsp;<span class="casedetail" id="Private">text</span>
+
+
+                </div>
+                <div class="form-group">
+                <label for="exampleInputEmail1">On-site or Online Lessons</label>
+                  &nbsp;<span class="casedetail" id="onsite">text</span>
+
+                </div>
+                  <div class="form-group">
+                <label for="exampleInputEmail1">Gender Request</label>
+                  &nbsp;<span class="casedetail" id="gender">text</span>
+
+
+                </div>
+
+                      <div class="form-group">
+                <label for="exampleInputEmail1">Location</label>
+                  &nbsp;<span class="casedetail" id="location">text</span>
+
+
+                </div>
+              <div class="form-group">
+                <label for="exampleInputEmail1">Current School</label>
+                  &nbsp;<span class="casedetail" id="School">text</span>
+
+                </div>
+                <div class="form-group">
+                <label for="exampleInputEmail1">Discount Required</label>
+                  &nbsp;<span class="casedetail" id="discount">text</span>
+                </div>
+                <div class="form-group">
+                <label for="exampleInputEmail1">Notes/Handouts</label>
+                  &nbsp;<span class="casedetail" id="notes">text</span>
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Past Papers</label>
+                  &nbsp;<span class="casedetail" id="past">text</span>
+                </div>
+                
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Min years direct teaching exp</label>
+                  &nbsp;<span class="casedetail" id="exp">text</span>
+                </div>
+
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Min level of edu by teacher</label>
+                  &nbsp;<span class="casedetail" id="mined">text</span>
+                </div>
+
+
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Max Price</label>
+                  &nbsp;<span class="casedetail" id="maxprice">text</span>
+                </div>
+
+                <div class="form-group">
+                    <label for="exampleInputEmail1">HKDSE</label>
+                  &nbsp;<span class="casedetail" id="curriculum">text</span>
+                </div>
+
+
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Special Requirements</label>
+                  &nbsp;<span class="casedetail">text</span>
+                </div>
+                
+                </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default closepoup" data-dismiss="modal">Close</button>
+          </div>
+    </div>
+    <input type="hidden" id="emailexiturl" value="{{site_url}}{% url 'checkemail' %}">
+    <input type="hidden" id="emaileditexiturl" value="{{site_url}}{% url 'checkeditemail' %}">
+    <input type="hidden" id="usernameid" value="{{site_url}}{% url 'username' %}">
+  </div>
+</div>
+
+
+
+
+<!-- End message -->
+<script src="{% static 'admin/bower_components/jquery/dist/jquery.min.js' %}"></script>
+<script src="{% static 'admin/dist/js/adminlte.min.js' %}"></script>
+<script src="{% static 'admin/bower_components/bootstrap/dist/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'admin/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js' %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.17.0/dist/jquery.validate.min.js"></script>
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
+
+<script src="{% static 'admin/sweetalert/sweetalert.js' %}"></script>
+<script src="{% static 'admin/admincustom/validation.js' %}"></script>
+<script src="{% static 'admin/admincustom/adminajax.js' %}"></script>
+<script type="text/javascript" src="{% static '/admin/datepicker/jquery/bootstrap-datetimepicker.js' %}" charset="UTF-8"></script>
+<script src="{% static 'admin/countrycode/js/intlTelInput.js' %}"></script>
+<script src="{% static 'website/js/ion.rangeSlider.min.js' %}"></script>
+<script type="text/javascript">
+
+$(function() {
+        $('#datetime').datetimepicker({
+            weekStart: 1,
+            todayBtn:  1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 2,
+            forceParse: 0,
+            showMeridian: 1
+        });
+    });
+$(document).ready(function(){
+  v = $("#maxprice").val()
+  $("#price").ionRangeSlider({
+      min: 0, 
+      max: 10000, 
+      from: v,
+      to: v,
+      prefix:"$ ",
+      onFinish: function (data) {
+          $("#maxprice").val($("#price").val())
+      },
+  });
+  ex = $("#maxexpirence").val()
+  $("#year").ionRangeSlider({
+      min: 0, 
+      max: 12, 
+      from: ex,
+      to: ex,
+      postfix:" year",
+    onFinish: function (data) {
+          $("#maxexpirence").val($("#year").val())
+      },
+  });
+});
+
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDdJSTee3k9yMmw5gtZnQp0D-v082HNqos&libraries=places&callback=initAutocomplete"
+  async defer></script>
+<script type="text/javascript">
+     // Google location
+
+          var placeSearch, autocomplete;
+          var componentForm = {
+            street_number: 'short_name',
+            route: 'long_name',
+            locality: 'long_name',
+            administrative_area_level_1: 'short_name',
+            country: 'long_name',
+            postal_code: 'short_name'
+          };
+          function initAutocomplete() {
+            autocomplete = new google.maps.places.Autocomplete(
+            (document.getElementById('googleLocation')),
+                {types: ['geocode']});
+
+            autocomplete.addListener('place_changed', fillInAddress);
+          }
+          function fillInAddress() {
+            var place = autocomplete.getPlace();
+
+            for (var component in componentForm) {
+              document.getElementById(component).value = '';
+              document.getElementById(component).disabled = false;
+            }
+            for (var i = 0; i < place.address_components.length; i++) {
+              var addressType = place.address_components[i].types[0];
+              if (componentForm[addressType]) {
+                var val = place.address_components[i][componentForm[addressType]];
+                document.getElementById(addressType).value = val;
+              }
+            }
+          }
+          function geolocate() {
+            if (navigator.geolocation) {
+              navigator.geolocation.getCurrentPosition(function(position) {
+                var geolocation = {
+                  lat: position.coords.latitude,
+                  lng: position.coords.longitude
+                };
+                var circle = new google.maps.Circle({
+                  center: geolocation,
+                  radius: position.coords.accuracy
+                });
+                autocomplete.setBounds(circle.getBounds());
+              });
+            }
+          }
+    // End location
+    // function viewcasedetail(id){
+      
+    //     $("#casedetail").show()
+    //     $("#casedetail").addClass('in')
+    // }
+</script>
+<!-- <style type="text/css">
+  .casedetail {margin-left: 370px;}
+</style> -->
+</body>
+</html>
+
+

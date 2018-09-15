@@ -1,0 +1,43 @@
+{% extends "layout/adminlayout.html" %}
+
+{% load staticfiles %}
+
+{% block title %}Admin | Dashboard {% endblock %}
+
+{% block content %}
+
+
+<div class="content-wrapper">
+    <section class="content-header">
+      <h1>
+        Dashboard
+      </h1>
+      <ol class="breadcrumb">
+        <li>
+          <a href="#">
+            <i class="fa fa-dashboard"></i>Admin
+          </a>
+        </li>
+        <li class="active">Dashboard</li>
+      </ol>
+    </section> 
+    <section class="content">
+            <div class="col-lg-3 col-xs-6">
+              <div class="small-box bg-yellow">
+                <div class="inner">
+                  <h3>{{student}}</h3>
+                  <p>Total Registered User</p>
+                </div>
+                <div class="icon">
+                  <i class="ion ion-person-add"></i>
+                </div>
+                <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+              </div>
+            </div>
+          <div class="row">
+          </div>
+    </section>
+</div>
+
+
+{% endblock %}

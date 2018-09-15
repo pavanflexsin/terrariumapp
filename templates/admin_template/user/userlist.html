@@ -1,0 +1,135 @@
+{% extends "layout/adminlayout.html" %}
+{% load staticfiles %}
+
+{% block title %} Admin | Parent/Student  List {% endblock %}
+
+
+{% block content %}
+<div class="content-wrapper">
+  <section class="content-header">
+    <h1>
+      Parent/Student  List
+    </h1>
+    <ol class="breadcrumb">
+      <li><a href="{% url 'admindashboard' %}"><i class="fa fa-dashboard"></i>Admin</a></li>
+      <li class="active"><a href="{% url 'userlist' %}">Parent/Student  List</a></li>
+    </ol>
+  </section>
+  
+  <section class="content">
+                <div class="row">
+                  <div class="col-xs-12">
+                    <div class="box">
+                      <div class="box-body">
+                        <div class="row">
+                      <form method="get" id="customersearch" action="">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                  <input type="text" class="form-control" name="search" placeholder="Enter  your search parameter" maxlength="50" value="{{request.GET.search}}">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                              <button type="submit" class="btn btn-primary">Search</button>
+                                <a href="{% url 'adduser' %}" class="btn btn-primary">Add</a>
+                              </div>
+                      </form>
+                      </div>
+                      <div id="html">
+                          <div class="col-md-6 pull-right" style="margin-left: -14px;" >
+                            <form method="get" id="Download" action="{% url 'download' %}">
+                              <input type="hidden" name="usertype" value="1">
+                              <select name="download" class="form-control" onchange='this.form.submit()'>
+                              <option value="0">Download data</option>
+                              <option value="1">Generate Excel</option>
+                              <option value="2">Generate Pdf</option>
+                            </select>
+                            </form>
+                            </div>
+                           <table id="example2" class="table table-bordered table-hover">
+                          <thead>
+                          <tr>
+                              <th>Sr. No</th>
+                              <th>Full Name</th>
+                              <th>Email Id</th>
+                              <th>Mobile No</th>
+                              <th>User Role </th>
+                              <th>Active</th>
+                              <th>Added</th>
+                              <th>Action</th>
+                          </tr>
+                          </thead>
+                          <tbody>
+                          {% if  responselistquery %}
+                            {% for data in responselistquery %}
+                              <tr id="delete_{{data.id}}">
+                                <td>{{forloop.counter}}</td>
+                                <td>{{data.first_name}} {{data.last_name}}</td>
+                                <td>{{data.email}}</td>
+                                <td>+ {{data.mobilenumber}}</td>
+                                <td>{{data.get_usertype_display}}</td>
+                                <td> 
+                                {% if data.is_active %}
+                                  Active
+                                {% else %}
+                                  Inactive
+                                {% endif %}
+                                </td>
+                                <td>{{data.updated }}</td>
+                                <td>
+                                  <a href="{% url 'studentdetail' data.id %}" class="btn btn-primary">View</a>
+                                  <a href="{% url 'edituser' data.id %}" class="btn btn-primary">Edit</a>
+                                  <a href="javascript:;" data-toggle="modal" data-attr = "{{data.id}}" data-target="#squarespaceModal" class="btn btn-primary changemessge"> Change Password </a>
+                                <a href="javascript:;" onclick="DeleteUserAccount('{{data.id}}','{{csrf_token}}')" class="btn btn-primary">Delete</a></br>
+                                </td>
+                              </tr>
+                            {% endfor %}
+                          {%else%}
+                          <tr colspan="10" style="text-align: center;"><td colspan="10">No Record Found</td></tr>
+                          {% endif %}
+                          </tbody>
+                        </table>
+                      </div>
+
+                    <div class="col-sm-7">
+                {% if responselistquery.has_other_pages %}
+                    <div class="dataTables_paginate paging_simple_numbers"  style="text-align: right;">
+                      <ul class="pagination">
+                      {% if responselistquery.has_previous %}
+                        <li class="paginate_button previous"><a href="?page={{ responselistquery.previous_page_number }}&search={{request.GET.search}}&user={{request.GET.user}}" class="npLink">Prev</a></li>
+                      {% else %}
+                        <li class="paginate_button"><a href="javascript:;" class="paginate_button previous disabled npLink">Prev</a></li>
+                      {% endif %}
+                      {% if responselistquery.number|add:'-4' > 1 %}
+                        <li class="paginate_button "><a href="?page={{ responselistquery.number|add:'-5' }}&search={{request.GET.search}}&user={{request.GET.user}}">{{ responselistquery.number|add:'-5' }}</a></li>
+                      {% endif %}
+
+                      {% for i in responselistquery.paginator.page_range %}
+                        
+                          {% if responselistquery.number == i %}
+                            <li class="paginate_button "><a href="javascript:;" class="active">{{i}}</a></li>
+                          {% elif i > responselistquery.number|add:'-5' and i < responselistquery.number|add:'5' %}
+                            <li class="paginate_button "><a href="?page={{ i }}&search={{request.GET.search}}&user={{request.GET.user}}">{{i}}</a></li>
+                          {% endif %}
+                      {% endfor %}
+
+                      {% if responselistquery.paginator.num_pages > responselistquery.number|add:'4' %}
+                       <li class="paginate_button "> <a href="?page={{ responselistquery.number|add:'5' }}&search={{request.GET.search}}&user={{request.GET.user}}">...</a></li>
+                      {% endif %}
+
+                      {% if responselistquery.has_next %}
+                        <li class="paginate_button next "><a href="?page={{ responselistquery.next_page_number}}&search={{request.GET.search}}&user={{request.GET.user}}" class="active">Next</a></li>
+                      {% else %}
+                        <li class="paginate_button next disabled"><a href="javascript:;" class="npLink">Next</a></li>
+                      {% endif %}
+                      </ul>
+                    </div>
+                {% endif %}
+                    </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+  </section>
+</div>
+{% include "layout/adminmessage.html" %}
+{% endblock %}

@@ -1,0 +1,313 @@
+@media only screen and (max-width: 1900px) {
+.filterInput {width:170px; margin-right:15px; font-size:13px;}
+.filterSelect {width:170px; margin-right:15px; font-size:13px;}
+.showingResult {font-size:13px;}
+}
+
+
+@media only screen and (max-width: 1169px) {
+.logo {padding:15px 0 0 10px;}
+.menu ul li {padding:20px 0 0 0;}
+.headerRgt {padding:20px 10px 0 0;}
+.section .container {padding-top:70px;}
+.mainHd {font-size:30px;}
+.bannerTxt {font-size:16px;}
+.middleHd {font-size: 22px; line-height: 32px;}
+.middleTxt {font-size:19px;}
+.whyTeach li {font-size:15px;}
+.whyTeach li span {font-size:17px;}
+.clientSlider .item  {margin-top:0;}
+.clientTop {padding:15px; min-height:100px; font-size:14px;}
+.clientImg {left:15px; top:15px;}
+.clientDet {padding:0 0 0 90px;}
+.clientBot {padding:14px;}
+.postBox {padding-top:30px;}
+.footerTop {font-size:15px;}
+.footerTop span {font-size:18px;}
+.footerLink li {margin-right:15px;}
+.copy {padding-left:50px;}
+.filter {padding-left:10px;}
+.showingResult {padding-right:10px;}
+.teacherList ul {margin:0 -10px;}
+.teacherList ul li {padding:20px 10px 0 10px;}
+
+.casesList {padding:20px 5px 10px 5px;}
+.casesList li {padding:0 5px;}
+.casesList li > div {padding:10px 120px 10px 10px; font-size:18px;}
+.casesList li > div span {font-size:38px; line-height:40px;}
+.casesList li > div:after {width:115px;}
+.caseTable {padding:0 10px;}
+.caseTable tr td {font-size:14px; padding:10px;}
+.caseid {font-size:15px;}
+.innerFooter {margin-top:20px;}
+.testiminialList ul {margin:0 -10px;}
+.testiminialList ul li {padding:20px 10px 0 10px;}
+}
+
+@media only screen and (max-width: 999px) {
+.logo {width:160px;}
+.menu {position:static; float:right; width:auto; padding:20px 10px 0 10px;}
+a.showMobMenu {display:block; width:40px; height:30px; background:#7ab80e; border-radius:3px; padding-top:9px; position:relative; z-index:1000;}
+a.showMobMenu i {width:20px; height:1px; background:#fff; display:block; margin:0 auto 5px auto; -webkit-transition:ease-in-out .3s; -moz-transition:ease-in-out .3s; -ms-transition:ease-in-out .3s; -o-transition:ease-in-out .3s; transition:ease-in-out .3s;}
+a.showMobMenu.active i:nth-child(1) {-moz-transform:rotate(45deg); -webkit-transform:rotate(45deg); transform:rotate(45deg); margin:7px auto 0 auto;}
+a.showMobMenu.active i:nth-child(2) {-moz-transform:rotate(-45deg); -webkit-transform:rotate(-45deg); transform:rotate(-45deg); margin:-2px auto 0 auto;}
+a.showMobMenu.active i:nth-child(3) {display:none;}
+body.active {overflow:hidden !important;}
+.menu ul {position:fixed; left:-100%; top:0; width:100%; height:100%; overflow:auto; background:rgba(0,0,0,.9); -webkit-transition:ease-in-out .3s; -moz-transition:ease-in-out .3s; -ms-transition:ease-in-out .3s; -o-transition:ease-in-out .3s; transition:ease-in-out .3s; padding-top:90px; z-index:999;}
+.menu ul.active {left:0;}
+.menu ul li {display:block; padding:0px; border-top:1px solid #333;}
+.menu ul li a {color:#fff; display:block; padding:20px; border-radius:0;}
+.menu ul li a:hover {background:none;}
+.innerHeader .menu ul li {padding-top:0;}
+.languageBox { padding:5px 10px 0 0; position:relative;}
+a.languageLink {font-size:16px;}
+.topLink {padding-top:5px;}
+.topLink a {padding:0; font-size:15px; border-radius:0px; margin-left:10px;}
+.topLink a:hover {background:none;}
+.featureDet {padding:20px 0 0 30px;}
+.featureDet::before {top:-25px; left:10px;}
+.middleHd {font-size: 20px; line-height: 28px;}
+.uploadDet {padding:80px 50px 0 0;}
+.footerTop span {display:block;}
+.footerTop .call {padding:15px 0;}
+.footerTop .email {padding:15px 0;}
+.footerTop .whatsup {padding:15px 0;}
+.footerLink li:nth-child(1), .footerLink li:nth-child(2), .footerLink li:nth-child(3) {display:none;}
+.teacherList ul li > div {padding:15px;}
+.teacherList ul li .top .name {font-size:19px;}
+.teacherList ul li .top {font-size:14px;}
+a.btn {font-size:14px;}
+.teacherList ul li .bot .rgt {font-size:14px;}
+.teacherList ul li .bot .rgt .price {font-size:16px;}
+.teacherList ul li .bot .rgt .price span {font-size:14px;}
+
+.filter {float:none; padding:10px 10px 0 10px;}
+.filter span {padding-bottom:0; display:block; float:none;}
+.filterBox {float:none; padding-left:4px;}
+.filterInput {width:32.33%; margin:10px 1% 0 -4px;}
+.filterSelect{width:32.33%; margin:10px 1% 0 -4px;}
+.goBtn {margin-top:10px;}
+.showingResult {float:none; text-align:right;}
+.casesList li > div {padding:10px 65px 10px 10px; font-size:16px;}
+.casesList li > div:after {width:60px; background-size:35px;}
+.casesList li > div span {font-size:32px; line-height:35px;}
+.caseTable {width:100%; overflow:auto; padding-bottom:10px;} 
+.caseTable table {width:999px;}
+
+/*Start My Profile CSS*/
+.myProfileMid {padding-top:180px;}
+.myProfileMid:after {height:230px;}
+.myprofileLeft {width:28%;}
+.padd20 {padding:10px;}
+.prifileImg {width:110px;}
+.prifileImg .img {border:5px solid #fff; margin-top:-62px;}
+.contentBox {font-size:14px; line-height:22px;}
+.botPad20 {padding-bottom:10px;}
+.profileName {font-size:18px;}
+a.greenBtn {font-size:14px; padding:6px 15px;}
+.myprofileRight {width:72%; padding:0 0 25px 15px;}
+.profileTab ul li {font-size:14px; padding-right:20px;}
+.profileHd {padding:10px 160px 10px 10px; font-size:18px;}
+.btnBox {right:10px; top:8px;}
+.aboutSubHd {font-size:16px;}
+.aboutTable li {font-size:14px;}
+.aboutTable li .lft {float:none; width:100%; padding:10px 10px 5px 10px;}
+.aboutTable li .rgt {float:none; width:100%; padding:0 10px 10px 10px;}
+.locationList li {padding:10px;}
+.locationList li a {margin:0 5px 5px 0;} 
+.eduHd {font-size:18px;}
+.eduHd span {font-size:15px;}
+.gradeList li {font-size:14px;}
+.gradeList li .lft {width:80%; padding:10px 10px 10px 0;}
+.gradeList li .rgt {width:20%; padding:10px 0;}
+.studentListHd {font-size:15px; padding:10px 40px 10px 0;}
+.studentListHd span {right:10px; top:10px;}
+.studentList li {font-size:14px;}
+.studentList .first {padding:10px;}
+.studentList .second {padding:10px;}
+.studentList .third {padding:10px;}
+.studentList .fourth {padding:10px !important; width: 25% !important;}
+.studentList li.hd {font-size:15px;}
+.curriculumHd {font-size:16px;}
+.curriculumList > li {font-size:14px;}
+.curriculumList > li .lft {float:none; width:100%; padding:10px 0 5px 0;}
+.curriculumList > li .rgt {float:none; width:100%; padding:0 0 10px 0;}
+.curriculumList > li .rgt li:before {top:8px;}
+.certificationsList {padding:0 10px;}
+.certificationsList li {padding:10px 0; font-size:17px;}
+.certificationsList li span {font-size:14px; padding-top:2px;}
+
+.caseResultInfo {font-size:14px;}
+.caseResultInfo .lft {float:none; width:100%; padding:10px 0;}
+.caseResultInfo .rgt {float:none; width:100%; padding:10px 0; border-top:1px solid #3e4550;}
+.specialReq {font-size:14px; padding-top:10px;}
+.caseResultHd {font-size:18px; padding-right:70px;}
+.caseResultHd .price {font-size:14px;}
+.caseResultHd .price span {font-size:16px;}
+.caseResultHd a {font-size:14px; top:3px;}
+.testiminialList ul li {width:50%;}
+.faqList li {padding-bottom:20px;}
+.faqList li .q {font-size:24px;}
+.faqList li .ans {font-size:14px;}
+.generalInfo li {font-size:14px; padding:10px 0;}
+.generalInfo li .lft {padding:0 10px 0 0;}
+
+.mycaseeMid {padding-top:140px;}
+.mycaseeMid:after {height:120px;}
+.mycaseeHd {padding:10px; font-size:18px;}
+.intrestedList ul li {padding:10px 10px 10px 60px; min-height:80px; font-size:14px;}
+.intrestedList ul li img {left:10px; top:13px; width:40px;}
+.intrestedList ul li span {font-size:17px;}
+}
+
+
+@media only screen and (max-width: 767px) {
+.intrestedList ul li a {color:#87929e;}
+header {background:#000;}
+.logo {float:none; padding:10px; margin:auto;}
+.menu {padding:5px 10px 10px 10px;}
+.headerRgt {float:left; padding:5px 10px 10px 10px;}
+.langugagePopup {right:inherit; left:0; top:35px;}
+.homeAfterLogin .langugagePopup {top:44px;}
+#section0 .container {padding:110px 10px 90px 10px;}
+.section .container {padding:30px 10px;}
+.mainHd {font-size:24px;}
+.mainHd br {display:none;}
+.bannerTxt {font-size:16px; padding-bottom:40px;}
+.bannerTxt br {display: none;}
+.searchBox {margin:0 10px; height:auto; border-radius:0; padding:0; -moz-box-shadow:0 0 0 5px rgba(255,255,255,.15); -webkit-box-shadow:0 0 0 5px rgba(255,255,255,.15); box-shadow:0 0 0 5px rgba(255,255,255,.15);}
+.selectBox {position:static; width:100%; height:50px; border-bottom:1px solid #4f4d4d; border-right:none;}
+.optionLink {font-size:16px; height:50px; line-height:50px; padding:0 40px 0 15px; background-position:right 15px center;}
+.selectPopup {width:100%; top:50px;}
+.searchInput {width:100%; padding:15px; font-size:15px; height:auto;}
+.searchBtn {background:#ff6600; border:none; width:100%; height:auto; position:static; border-radius:0; text-indent:0px; padding:10px; color:#fff; font-size:15px;}
+.featureImg {float:none; width:100%; text-align:center; margin-top:0;}
+.featureImg img {width:300px;}
+.featureDet {float:none; width:100%; margin-top:0; padding:20px 0 0 0; text-align:center;}
+.featureDet:before {display:none;}
+.middleTxt {font-size:16px;}
+.middleHd {font-size:20px; line-height:28px; padding-bottom:20px;}
+.uploadImg {float:none; width:100%; padding-top:0; text-align:center;}
+.uploadImg img {width:300px;}
+.uploadDet {float:none; width:100%; padding:20px 0 0 0; text-align:center;}
+.whyTeach li {display:block; width:100%; margin-left:0; padding:10px; font-size:15px;}
+.clientSlider {padding:0 35px;}
+.clientSlider .item {margin-top:0;}
+.clientSlider .owl-dots {display:none !important;}
+.clientSlider .owl-prev {display:block !important; position:absolute; left:0; top:50%; margin-top:-12px; width:25px; height:25px; overflow:hidden; text-indent:-300px; background:#000; border-radius:3px;}
+.clientSlider .owl-prev:after {content:''; border-bottom:7px solid transparent; border-top:7px solid transparent; border-right:7px solid #fff; position:absolute; left:9px; top:6px;}
+.clientSlider .owl-next {display:block !important; position:absolute; right:0; top:50%; margin-top:-12px; width:25px; height:25px; overflow:hidden; text-indent:-300px; background:#000; border-radius:3px;}
+.clientSlider .owl-next:after {content:''; border-bottom:7px solid transparent; border-top:7px solid transparent; border-left:7px solid #fff; position:absolute; left:9px; top:6px;}
+.postBox {padding-top:20px;}
+a.seeAll {position:static; margin-bottom:20px; display:inline-block;}
+#section4 .container {padding-bottom:20px;}
+footer {position:static;}
+.footerTop .container {width: 320px;}
+.footerTop span {display:inline-block;}
+.footerTop .call {float:none; width:100%; text-align:left; padding:15px 0;}
+.footerTop .email {float:none; width:100%; padding:0 0 15px 0; text-align:left;}
+.footerTop .whatsup {float:none; width:100%; padding:0 0 15px 0; text-align:left;}
+.footerLink {float:none; text-align:center; padding:15px 0;}
+.footerLink li {margin:0 10px; font-size:14px;}
+.copy {float:none; padding:0px 0 15px 0; text-align:center; font-size:14px;}
+.sociallink {float:none; padding:0 0 15px 0; text-align:center;}
+.sociallink a {margin:0 4px;}
+.overlay {height:100vh;}
+.padd30 {padding:15px;}
+.colse {right:10px; top:10px;}
+.popupHd {font-size:18px; padding:10px 15px;}
+.formField {padding-bottom:15px;}
+.formField.half {width:100%; float:none; margin-left:0;}
+.formField.oneThird {width:100%; float:none; margin-left:0;}
+.rem {font-size:13px;}
+a.fp {font-size:13px;}
+.formBtn {font-size:15px;}
+.popupBot {padding:15px;}
+.cancelBtn {font-size:15px;}
+.signupTxt {font-size:15px;}
+.tcTxt {font-size:14px;}
+.fieldHd {font-size:14px;}
+.optionCol {margin:5px 20px 0 0; font-size:14px;}
+.popupContent {font-size:14px; line-height:26px;}
+.subHd {font-size:20px;}
+.innerHeader {height:auto;}
+.innerHeader .headerRgt {padding-top:0;}
+.innerHeader .menu ul li {padding-top:0;}
+.midCon {padding-top:97px;}
+.teacherList ul li {width:100%; float:none; padding-top:10px;}
+.teacherList ul li > div {padding:10px;}
+.teacherList ul li .top .userImg img {border: 2px solid #fff; width: 55px;}
+.filterInput {width:48%; margin:10px 2% 0 -4px;}
+.filterSelect{width:48%; margin:10px 2% 0 -4px;}
+a.accountLink {height:45px; padding:0 32px 0 10px; background:url(../images/dwn_arrow.png) no-repeat right 10px center;}
+a.accountLink img {width:40px;}
+.accountDD {right:0; width: 160px;}
+a.notificationLink {padding:8px 20px 0 10px; height:45px;}
+a.notificationLink .count {width:20px; height:20px; right:9px; top:5px; line-height:20px;}
+.casesList li {width:100%; padding-top:8px;}
+.headerRgt.afterLogin .languageBox {padding:10px 10px 0 10px;}
+.headerRgt.afterLogin .langugagePopup {top:47px;}
+
+/*Start My Profile CSS*/
+.myprofileLeft {float:none; width:100%; padding-bottom:0;}
+.prifileImg a.editBtn {bottom:-4px; margin-left:-22px;}
+.myprofileRight {float:none; width:100%; padding:0 0 20px 0;}
+.profileTab {display:none;}
+a.editBtn {padding:2px 10px;}
+.editBtn img {display:none;}
+.btnBox {top:10px; position: static; float: right; display: block;}
+.btnBox a {margin-left:0;}
+.profileHd {padding:10px;}
+.btnRgt a {margin-left:0;}
+.aboutSubHd {font-size:14px;}
+.profileHd {font-size:16px;}
+.eduHd {font-size:16px;}
+.eduHd span {font-size:14px; margin-left:5px;}
+.viewcaseHd {font-size:14px;}
+.viewcaseHd span {font-size:18px;}
+.viewcaseList li {float:none; width:100%; padding-top:10px; font-size:14px;}
+.testiminialList ul li {width:100%; float:none; padding-top:10px;}
+a.addImg {width:100px; height:100px;}
+.faqList li .q {font-size:18px;}
+.editImg {width:100px; height:100px;}
+a.deleteImg {width:32px; height:32px;}
+.editPopupHd {font-size:16px; padding-bottom:10px;}
+.editNumber {font-size:19px;}
+
+.caseInfo li {padding:10px 0;}
+.caseInfo li .lft {float:none; width:100%; font-size:14px; color:#999;}
+.caseInfo li .rgt {float:none; width:100%; text-align:left; font-size:16px;}
+.casedetBot .info {min-height:50px; padding:0 0 0 65px;}
+.casedetBot .info .img {width:50px;}
+.casedetBot .info .name {font-size:19px; padding:0;}
+.casedetBot .info .det {font-size:14px;}
+.casedetBot .info .det span.sep {display:block; height:1px; overflow:hidden;}
+.mailInfo {font-size:14px;}
+.perferedLan {font-size:14px;}
+.perferedLan span {font-size:16px;}
+a.chnagePass {font-size:15px;}
+.chosseImg {position:absolute; left:0; bottom:-30px; width:100%; text-align:center; font-size:11px;}
+.generalInfo li .lft {float:none; width:100%; padding:0 0 5px 0;}
+.generalInfo li .rgt {float:none; width:100%; text-align:left;}
+
+.mycaseeMid {padding-top:200px;}
+.mycaseeMid:after {height:180px;}
+.mycaseLft.active {position:static;}
+.mycaseLft .intrestedList {max-height:inherit !important;}
+
+.termsTxt {font-size:13px; line-height:20px; padding:10px;}
+.termsHd {font-size:16px;}
+.bulletList li:before {top:12px;}
+.bannerBtns {padding:0;}
+.bannerBtns a {font-size:18px; border:1px solid #fff; padding:5px 0; width:220px;}
+.bannerBtns a img { width:28px; margin:0 4px 4px 0;}
+.bannerBtns a.ft {border:1px solid #7ab80e;}
+.bannerBtns a.fc {border:1px solid #ff6600;}
+.bannerBtns a:hover {border:1px solid #fff !important;}
+}
+
+@media only screen and (max-width: 479px) {
+.overlay .tableInner {padding:40px 10px 80px 10px;} 
+.bannerBtns a {display:block; margin:0 auto 15px auto; text-align: left; padding: 7px 25px;}
+#langaugeformsubmit select {width: 95px;}
+}

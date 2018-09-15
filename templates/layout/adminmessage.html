@@ -1,0 +1,21 @@
+{% load static %}
+{% if messages %}
+    {% for message in messages %}
+        {% if  forloop.counter == 1 %}
+            <script src="{% static 'admin/sweetalert/sweetalert.js' %}"></script>
+          	{% if  message.tags == 'success'%}
+                <script type="text/javascript">
+                        swal("Good job", "{{ message }}", "success")
+                </script>
+            {% elif  message.tags == 'warning'%}
+                <script type="text/javascript">
+                        swal("Oops", "{{ message }}", "success")
+                </script>
+            {% else %}
+                <script type="text/javascript">
+                    swal("Error", "{{ message }}", "error")
+                </script>
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+{% endif %}

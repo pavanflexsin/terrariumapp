@@ -1,0 +1,71 @@
+{% extends "layout/adminlayout.html" %}
+{% load staticfiles %}
+
+{% block title %} Admin | Add Cms {% endblock %}
+
+{% block content %}
+ {% load i18n %}
+<div class="content-wrapper">
+  <section class="content">
+    <div class="box box-default">
+      <div class="box-header with-border">
+        <h3 class="box-title">Add Cms</h3>
+      </div>
+      <div class="box-body">
+        <div class="row">
+          <form method="POST" id="addcms" action="" enctype="multipart/form-data">
+          {% csrf_token %}
+            <div class="col-md-6">
+            <div class="form-group">  
+
+              <div class="form-group">
+                <label>Select Language</label>&nbsp;<span style="color: red">*</span>
+                       <select class="form-control" name="language">
+                        {% get_current_language as LANGUAGE_CODE %}
+                        {% get_available_languages as LANGUAGES %}
+                        {% get_language_info_list for LANGUAGES as languages %}
+                        {% for language in languages %}
+                          <option class="form-control" value="{{ language.code }}" >
+                            {% if language.code == "en" %}
+                              English
+                            {% elif language.code == "zh-hans"  %}
+                              Simplified Chinese
+                            {% else %}
+                              Traditional Chinese
+                            {% endif %}
+                          </option>
+                                  {% endfor %}
+                        </select>
+              </div>
+              <div class="form-group">
+                <label>Title</label>&nbsp;<span style="color: red">*</span>
+                <input type="text" name="title" class="form-control" maxlength="150" placeholder="Enter your  title">
+              </div>
+              <div class="form-group">
+                <label>Heading</label>&nbsp;<span style="color: red">*</span>
+                <input type="text" name="heading" class="form-control" maxlength="150" placeholder="Enter your  heading">
+              </div>
+
+              <div class="form-group">
+                <label>Content</label>&nbsp;<span style="color: red">*</span>
+                <textarea name="content" id="content" class="form-control" placeholder="Enter your content"></textarea>
+              </div>
+              <div class="form-group">
+                <button type="submit" class="btn btn-primary" id="addcmsbtn">Save</button>
+              </div>
+          </div>
+            {% csrf_token %}
+          </form>
+        </div>
+      </div>
+      <div class="box-footer">
+        Note: <span style="color: red">*</span> is a mandatory elements
+      </div>
+    </div>
+  </section>
+</div>
+<script type="text/javascript">
+  CKEDITOR.replace('content',{allowedContent :true})
+  CKEDITOR.config.extraPlugins = 'colorbutton,font';
+</script>
+{% endblock %}
