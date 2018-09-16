@@ -216,7 +216,7 @@ class UpdateAdminProfile(View):
             ''' End crop '''
 
         adminprofile.save()
-        messages.add_message(request, messages.SUCCESS, "Profile update successfully.")
+        messages.add_message(request, messages.SUCCESS, "Profile updated successfully.")
         return redirect('updateadminprofile')
 
 
