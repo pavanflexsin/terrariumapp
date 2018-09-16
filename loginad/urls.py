@@ -14,4 +14,10 @@ urlpatterns = [
 	url(r'^checkeditemail/$', CheckEditEmailExists.as_view(), name='checkeditemail'),
 	url(r'^username/$', CheckUserNameExists.as_view(), name='username'),
 	url(r'^newuser/$', AddNewUser.as_view(), name='newuser'),
+	url(r'^userlist/$', UserTemplateList.as_view(), name='userlist'),
+	url(r'^userdeleteaccount/$', DeleteUserAccount.as_view(), name='userdeleteaccount'),
+	url(r'^adduser/$', AddUserTemplate.as_view(), name='adduser'),
+	url(r'^userchangepassword/$', ChangePassword.as_view(), name='userchangepassword'),
+	url(r'^activateuser/(?P<key>.+)/$', ActivateDeactivateUserAccount.as_view(), name='activateuser'),
+	
 	]

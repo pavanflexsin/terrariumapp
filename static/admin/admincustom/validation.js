@@ -23,7 +23,7 @@ $(document).ready(function() {
 
     $.validator.addMethod("checknumber", function(value) {   
         if (value.match(/\d+/g)){
-            return false
+            return falseuserprofile
         }
         else{
             return true
@@ -209,7 +209,6 @@ $(document).ready(function() {
         rules: {
             oldpassword: {
                 required: !0,
-                password_strength: true,
             },
             newpassword: {
                 required: !0,

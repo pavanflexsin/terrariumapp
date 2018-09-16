@@ -119,7 +119,7 @@
           </span>
         </a>
         <ul class="treeview-menu">
-          <li class="active"><a href="#">
+          <li class="active"><a href="{% url 'userlist' %}">
               <i class="fa fa-circle-o">
               </i>User List</a>
           </li>
@@ -233,106 +233,6 @@
 <script type="text/javascript" src="{% static '/admin/datepicker/jquery/bootstrap-datetimepicker.js' %}" charset="UTF-8"></script>
 <script src="{% static 'admin/countrycode/js/intlTelInput.js' %}"></script>
 <script src="{% static 'website/js/ion.rangeSlider.min.js' %}"></script>
-<script type="text/javascript">
-
-$(function() {
-        $('#datetime').datetimepicker({
-            weekStart: 1,
-            todayBtn:  1,
-            autoclose: 1,
-            todayHighlight: 1,
-            startView: 2,
-            forceParse: 0,
-            showMeridian: 1
-        });
-    });
-$(document).ready(function(){
-  v = $("#maxprice").val()
-  $("#price").ionRangeSlider({
-      min: 0, 
-      max: 10000, 
-      from: v,
-      to: v,
-      prefix:"$ ",
-      onFinish: function (data) {
-          $("#maxprice").val($("#price").val())
-      },
-  });
-  ex = $("#maxexpirence").val()
-  $("#year").ionRangeSlider({
-      min: 0, 
-      max: 12, 
-      from: ex,
-      to: ex,
-      postfix:" year",
-    onFinish: function (data) {
-          $("#maxexpirence").val($("#year").val())
-      },
-  });
-});
-
-</script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDdJSTee3k9yMmw5gtZnQp0D-v082HNqos&libraries=places&callback=initAutocomplete"
-  async defer></script>
-<script type="text/javascript">
-     // Google location
-
-          var placeSearch, autocomplete;
-          var componentForm = {
-            street_number: 'short_name',
-            route: 'long_name',
-            locality: 'long_name',
-            administrative_area_level_1: 'short_name',
-            country: 'long_name',
-            postal_code: 'short_name'
-          };
-          function initAutocomplete() {
-            autocomplete = new google.maps.places.Autocomplete(
-            (document.getElementById('googleLocation')),
-                {types: ['geocode']});
-
-            autocomplete.addListener('place_changed', fillInAddress);
-          }
-          function fillInAddress() {
-            var place = autocomplete.getPlace();
-
-            for (var component in componentForm) {
-              document.getElementById(component).value = '';
-              document.getElementById(component).disabled = false;
-            }
-            for (var i = 0; i < place.address_components.length; i++) {
-              var addressType = place.address_components[i].types[0];
-              if (componentForm[addressType]) {
-                var val = place.address_components[i][componentForm[addressType]];
-                document.getElementById(addressType).value = val;
-              }
-            }
-          }
-          function geolocate() {
-            if (navigator.geolocation) {
-              navigator.geolocation.getCurrentPosition(function(position) {
-                var geolocation = {
-                  lat: position.coords.latitude,
-                  lng: position.coords.longitude
-                };
-                var circle = new google.maps.Circle({
-                  center: geolocation,
-                  radius: position.coords.accuracy
-                });
-                autocomplete.setBounds(circle.getBounds());
-              });
-            }
-          }
-    // End location
-    // function viewcasedetail(id){
-      
-    //     $("#casedetail").show()
-    //     $("#casedetail").addClass('in')
-    // }
-</script>
-<!-- <style type="text/css">
-  .casedetail {margin-left: 370px;}
-</style> -->
 </body>
 </html>
 

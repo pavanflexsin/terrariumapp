@@ -15,6 +15,8 @@ from terrarium_app.common import *
 from django.contrib import messages
 from uuid import uuid4
 import json
+from django.db.models import Case, Value, When
+
 
 class AdminLogin(View):
 
@@ -41,6 +43,8 @@ class AdminLogin(View):
         else:
             messages.add_message(request, messages.ERROR, "Username and password is wrong.")
             return redirect('adminlogin')
+
+
 class AddNewUser(View):
 
     ''' Admin login functionality '''
@@ -67,6 +71,7 @@ class AddNewUser(View):
 
         messages.add_message(request, messages.SUCCESS, "New User Registered Successfully.")
         return redirect('newuser')
+
 
 class AdminLogout(View):
 
@@ -266,3 +271,105 @@ class CheckEditEmailExists(View):
             else:
                 reponse = json.dumps(True)
                 return HttpResponse(reponse)
+
+
+class UserTemplateList(View):
+    template = "admin_template/user/userlist.html"
+
+    pagesize = 10
+
+    @cache_control(no_cache=True, must_revalidate=True, no_store=True)
+    def get(self, request, *args, **kwargs):
+        if not request.user.is_superuser:
+            return redirect('adminlogin')
+        
+        response = User.objects.filter(is_superuser = 0).order_by('-id')
+        search = request.GET.get('search')
+        usertype = request.GET.get('user')
+        testsearch = ''
+        if search != None and  str(search) != "":
+            testsearch = search.rstrip()
+        if len(testsearch) > 0:
+            response = response.filter(username__icontains = str(testsearch))
+
+
+        responselistquery = CommonPagination.paginattion(request , response, self.pagesize)
+
+        context = {
+            'responselistquery': responselistquery,
+        }
+        return render(request, self.template, context)
+
+
+class DeleteUserAccount(View):
+    def post(self, request, *args, **kwargs):
+        if not request.user.is_superuser:
+            return redirect('adminlogin')
+        if request.is_ajax:
+            try:
+                addquestion = User.objects.get(id = int(request.POST['id'])).delete()
+                messages = "1"
+            except:
+                messages = "0"
+            return JsonResponse({'messages':messages})
+        else:
+            return redirect('admindashboard')
+
+
+class ActivateDeactivateUserAccount(View):
+
+    @cache_control(no_cache=True, must_revalidate=True, no_store=True)
+    def get(self, request, key, *args, **kwargs):
+
+        if not request.user.is_superuser:
+            return redirect('adminlogin')
+        User.objects.filter(id=key).update(is_active=Case(
+            When(is_active=True, then=Value(False)),
+            When(is_active=False, then=Value(True)),
+        ))
+        messages.add_message(request, messages.SUCCESS, "Status has been changed.")
+        return redirect('userlist')
+
+
+class AddUserTemplate(View ):
+    template = 'admin_template/user/adduser.html'
+    @cache_control(no_cache=True, must_revalidate=True, no_store=True)
+
+    def get(self, request, *args, **kwargs):
+        if not request.user.is_superuser:
+            return redirect('adminlogin')
+
+        return render(request, self.template)
+
+    def post(self, request, *args, **kwargs):
+        if not request.user.is_superuser:
+            return redirect('adminlogin')
+
+        adduse = User()
+        adduse.username = request.POST.get('username')
+        adduse.email = request.POST.get('emailid')
+        adduse.is_active = True
+        adduse.password = make_password((request.POST.get('password')))
+        adduse.save()
+
+        messages.add_message(request, messages.SUCCESS, "User added successfully.")
+        return redirect('userlist')
+
+
+class ChangePassword(View):
+
+    def post(self, request, *args, **kwargs):
+        if not request.user.is_superuser:
+            return redirect('adminlogin')
+
+        password = request.POST['password']
+        try: 
+            user = User.objects.get(id=request.POST['userid'])
+            makenewpassword = make_password(password)
+            user.password = makenewpassword 
+            user.save()
+            messages.add_message(request, messages.SUCCESS, "Password has been changed successfully.")
+            return redirect('userlist')
+        except:
+            messages.add_message(request, messages.ERROR, str(message.wrongmessage))
+            return redirect('userlist')

@@ -1,18 +1,18 @@
 {% extends "layout/adminlayout.html" %}
 {% load staticfiles %}
 
-{% block title %} Admin | Parent/Student  List {% endblock %}
+{% block title %} Admin | User List  List {% endblock %}
 
 
 {% block content %}
 <div class="content-wrapper">
   <section class="content-header">
     <h1>
-      Parent/Student  List
+      User List
     </h1>
     <ol class="breadcrumb">
       <li><a href="{% url 'admindashboard' %}"><i class="fa fa-dashboard"></i>Admin</a></li>
-      <li class="active"><a href="{% url 'userlist' %}">Parent/Student  List</a></li>
+      <li class="active"><a href="{% url 'userlist' %}">User List</a></li>
     </ol>
   </section>
   
@@ -30,29 +30,17 @@
                             </div>
                             <div class="col-md-6">
                               <button type="submit" class="btn btn-primary">Search</button>
-                                <a href="{% url 'adduser' %}" class="btn btn-primary">Add</a>
+                                <a href="{% url 'adduser' %}" class="btn btn-primary">Add New User</a>
                               </div>
                       </form>
                       </div>
                       <div id="html">
-                          <div class="col-md-6 pull-right" style="margin-left: -14px;" >
-                            <form method="get" id="Download" action="{% url 'download' %}">
-                              <input type="hidden" name="usertype" value="1">
-                              <select name="download" class="form-control" onchange='this.form.submit()'>
-                              <option value="0">Download data</option>
-                              <option value="1">Generate Excel</option>
-                              <option value="2">Generate Pdf</option>
-                            </select>
-                            </form>
-                            </div>
                            <table id="example2" class="table table-bordered table-hover">
                           <thead>
                           <tr>
                               <th>Sr. No</th>
-                              <th>Full Name</th>
+                              <th>User Name</th>
                               <th>Email Id</th>
-                              <th>Mobile No</th>
-                              <th>User Role </th>
                               <th>Active</th>
                               <th>Added</th>
                               <th>Action</th>
@@ -63,22 +51,24 @@
                             {% for data in responselistquery %}
                               <tr id="delete_{{data.id}}">
                                 <td>{{forloop.counter}}</td>
-                                <td>{{data.first_name}} {{data.last_name}}</td>
+                                <td>{{data.username}}</td>
                                 <td>{{data.email}}</td>
-                                <td>+ {{data.mobilenumber}}</td>
-                                <td>{{data.get_usertype_display}}</td>
                                 <td> 
                                 {% if data.is_active %}
-                                  Active
+                                  <span style="color: green">Active</span>
                                 {% else %}
-                                  Inactive
+                                  <span style="color: red">Inactive</span>
                                 {% endif %}
                                 </td>
                                 <td>{{data.updated }}</td>
                                 <td>
-                                  <a href="{% url 'studentdetail' data.id %}" class="btn btn-primary">View</a>
-                                  <a href="{% url 'edituser' data.id %}" class="btn btn-primary">Edit</a>
-                                  <a href="javascript:;" data-toggle="modal" data-attr = "{{data.id}}" data-target="#squarespaceModal" class="btn btn-primary changemessge"> Change Password </a>
+                                <a href="javascript:;" data-toggle="modal" data-attr = "{{data.id}}" data-target="#squarespaceModal" class="btn btn-primary changemessge"> Change Password </a>
+                                {% if data.is_active %}
+                                <a href="{% url 'activateuser' data.id %}" class="btn btn-primary">Deactivate</a>
+                                {% else %}
+                                <a href="{% url 'activateuser' data.id %}" class="btn btn-primary">Activate</a>
+                                {% endif %}
+
                                 <a href="javascript:;" onclick="DeleteUserAccount('{{data.id}}','{{csrf_token}}')" class="btn btn-primary">Delete</a></br>
                                 </td>
                               </tr>
