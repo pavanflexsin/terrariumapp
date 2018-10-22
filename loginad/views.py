@@ -227,7 +227,9 @@ class AdminDashBoard(View):
     def get(self, request):
         if not request.user.is_superuser:
             return redirect('adminlogin')
-        return render(request, self.template)
+        usercount = User.objects.filter(is_superuser = 0).count()
+
+        return render(request, self.template,{'usercount':usercount})
 
 
 class CheckEmailExists(View):

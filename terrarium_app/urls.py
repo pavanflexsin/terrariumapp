@@ -19,4 +19,5 @@ from django.conf import settings
 
 urlpatterns = [
     url(r'^admin/', include('loginad.urls')),
+    url(r'^api/v1/', include('app_api.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

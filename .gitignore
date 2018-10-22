@@ -1,3 +1,4 @@
+__pycache__
 # Logs
 logs/
 logs
@@ -51,15 +52,15 @@ adminmanagecms/
 
 # VSC files
 
-
+/loginad/__pycache__/
 
 ### Python pyc file settings ####
 
 # Byte-compiled / optimized / DLL files
-__pycache__/
+*__pycache__/
 *.py[cod]
 *$py.class
-
+**.pyc
 # C extensions
 *.so
 
