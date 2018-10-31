@@ -46,7 +46,7 @@ class UserRegistered(APIView):
 			usersave.save()
 			t = Template("<html><body>Dear {{ username }}, <br><br>Please click on <a href='{{URL}}''>Click</a> and activate your activate.<br><br>Thanks,<br>Team</body></html>")
 			html = t.render(Context({'username': request.data['username'],'URL':str(SiteUrl.site_url(request))+"/api/v1/activateaccount/"+ request.data['email']}))
-			objemail = SendMail.mail(request, "Activate Account", request.POST['email'], html)
+			objemail = SendMail.mail(request, "Activate Account", request.data['email'], html)
 			content = {
 				'response': None,
 				'statusCode': 1,
