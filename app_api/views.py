@@ -4,7 +4,10 @@ from rest_framework import status
 from app_api.serializers import *
 from django.contrib.auth.hashers import make_password, check_password
 from rest_framework.views import APIView
-
+from terrarium_app.common import SiteUrl, SendMail
+from django.template import Template, Context
+from django.views import View
+from django.shortcuts import render, redirect, render_to_response, HttpResponse, get_object_or_404
 
 
 
@@ -41,6 +44,9 @@ class UserRegistered(APIView):
 			usersave.password = make_password(request.data['password'])
 			usersave.is_active = False
 			usersave.save()
+			t = Template("<html><body>Dear {{ username }}, <br><br>Please click on <a href='{{URL}}''>Click</a> and activate your activate.<br><br>Thanks,<br>Team</body></html>")
+			html = t.render(Context({'username': request.data['username'],'URL':str(SiteUrl.site_url(request))+"/api/v1/activateaccount/"+ request.data['email']}))
+			objemail = SendMail.mail(request, "Activate Account", request.POST['email'], html)
 			content = {
 				'response': None,
 				'statusCode': 1,
@@ -136,3 +142,74 @@ class UserLoginChangePassword(APIView):
 				'message' : "User does not exists in our database."
 			}
 			return Response(content)
+
+
+class ActivateUserAccount(View):
+
+	"""  Verify Account Account  """
+	def get(self, request, key, *args, **kwargs):
+		try:
+			verified = User.objects.get( email = str(key))
+			if verified.is_active == False: 
+				verified.is_active = True
+				verified.save()
+				return HttpResponse("Your account activate successffuly.Please login.")
+			else:
+				return HttpResponse("Already activate your account.Please login.")
+		except User.DoesNotExist:
+				return HttpResponse("Your activation link is invalid.")
+
+
+class FacebookGoogleLogin(APIView):
+
+	def post(self, request, format=None):
+		if 'Facebookid' in request.data:
+			try:
+				saveuser = User.objects.get(email = request.data['email'])
+				saveuser.is_active = True
+				saveuser.email = request.data['email']
+				saveuser.facebooklogin = request.data['Facebookid']
+				saveuser.save()
+				content = {
+					'response': {'userid':saveuser.id,'email':saveuser.email},
+					'statusCode': 1,
+					'message' : "Sucess",
+				}
+				return Response(content)
+			except:
+				saveuser = user()
+				saveuser.is_active = True
+				saveuser.email = request.data['email']
+				saveuser.facebooklogin = request.data['Facebookid']
+				saveuser.save()
+				content = {
+					'response': {'userid':saveuser.id,'email':saveuser.email},
+					'statusCode': 1,
+					'message' : "Sucess",
+				}
+				return Response(content)
+		else:
+			try:
+				saveuser = User.objects.get(email = request.data['email'])
+				saveuser.is_active = True
+				saveuser.email = request.data['email']
+				saveuser.facebooklogin = request.data['googlelogin']
+				saveuser.save()
+				content = {
+					'response': {'userid':saveuser.id,'email':saveuser.email},
+					'statusCode': 1,
+					'message' : "Sucess",
+				}
+				return Response(content)
+			except:
+				saveuser = user()
+				saveuser.is_active = True
+				saveuser.email = request.data['email']
+				saveuser.facebooklogin = request.data['googlelogin']
+				saveuser.save()
+				content = {
+					'response': {'userid':saveuser.id,'email':saveuser.email},
+					'statusCode': 1,
+					'message' : "Sucess",
+				}
+				return Response(content)

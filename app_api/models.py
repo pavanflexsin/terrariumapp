@@ -28,6 +28,8 @@ class User(AbstractUser):
     grade = models.CharField(max_length= 500, blank=True, null=True, default='')
     mobilenumber = models.CharField(max_length= 500, blank=True, null=True, default='')
     forpasswordotp = models.CharField(max_length=500, blank=True, null=True, default='')
+    facebooklogin = models.CharField(max_length=500, blank=True, null=True, default='')
+    googlelogin = models.CharField(max_length=500, blank=True, null=True, default='')
     address = models.CharField(max_length=500, blank=True, null=True, default='')
     profile_pic1 = models.FileField(max_length=500, blank=True, null=True, default='')
     is_active = models.BooleanField(default= 1)

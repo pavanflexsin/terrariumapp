@@ -79,9 +79,6 @@ class SendMail(object):
 		return fail_type
 
 
-
-
-
 class StudentMultiLnaguageField(object):
 
 	''' Common Email Setting '''
@@ -118,7 +115,6 @@ class StudentMultiLnaguageField(object):
 				subject = casedetail.subject.nameen
 
 			return curriculum, subjectgroup, subject
-
 
 
 class TeacherPagination(object):
