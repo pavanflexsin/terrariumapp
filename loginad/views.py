@@ -16,6 +16,7 @@ from django.contrib import messages
 from uuid import uuid4
 import json
 from django.db.models import Case, Value, When
+import requests
 
 
 class AdminLogin(View):
@@ -375,3 +376,51 @@ class ChangePassword(View):
         except:
             messages.add_message(request, messages.ERROR, str(message.wrongmessage))
             return redirect('userlist')
+
+
+class CategoryList(View ):
+    template = 'admin_template/cms/categorylist.html'
+    @cache_control(no_cache=True, must_revalidate=True, no_store=True)
+
+    def get(self, request, *args, **kwargs):
+        if not request.user.is_superuser:
+            return redirect('adminlogin')
+        cate = Category.objects.all()
+        return render(request, self.template,{'categorylist':cate})
+
+class FetchCategory(View ):
+    template = 'admin_template/cms/categorylist.html'
+    @cache_control(no_cache=True, must_revalidate=True, no_store=True)
+
+    def get(self, request, *args, **kwargs):
+        if not request.user.is_superuser:
+            return redirect('adminlogin')
+
+        category_url = settings.CATEGORY_LIST
+        get_list = requests.get(category_url)
+        Category.objects.all().delete()
+        try:
+            for p in get_list.json():
+                cat = Category()
+                cat.category  = p['category_name']
+                cat.categoryid  = p['category_id']
+                cat.is_primary  = True
+                cat.save()
+        except:
+            pass
+        messages.add_message(request, messages.SUCCESS, "Category Fetch Successfully.")
+        return redirect('catgorylist')
+
+class ActivateDeactivateCategory(View):
+
+    @cache_control(no_cache=True, must_revalidate=True, no_store=True)
+    def get(self, request, key, *args, **kwargs):
+
+        if not request.user.is_superuser:
+            return redirect('adminlogin')
+        Category.objects.filter(id=key).update(is_primary=Case(
+            When(is_primary=True, then=Value(False)),
+            When(is_primary=False, then=Value(True)),
+        ))
+        messages.add_message(request, messages.SUCCESS, "Status has been changed.")
+        return redirect('catgorylist')

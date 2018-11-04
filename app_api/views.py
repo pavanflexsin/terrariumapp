@@ -213,3 +213,23 @@ class FacebookGoogleLogin(APIView):
 					'message' : "Sucess",
 				}
 				return Response(content)
+
+class CategoryList(APIView):
+
+	"""  Category List """
+	def get(self, request, *args, **kwargs):
+
+		cat = Category.objects.filter(is_primary = True)
+		cat_list = []
+		for x in cat:
+			cat_list.append({
+				'catgoryname':x.category,
+				'categoryid': x.categoryid,
+				'id': x.id
+				})
+		content = {
+			'response': cat_list,
+			'statusCode': 1,
+			'message' : "Sucess",
+		}
+		return Response(content)

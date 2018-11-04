@@ -17,7 +17,10 @@ urlpatterns = [
 	url(r'^userlist/$', UserTemplateList.as_view(), name='userlist'),
 	url(r'^userdeleteaccount/$', DeleteUserAccount.as_view(), name='userdeleteaccount'),
 	url(r'^adduser/$', AddUserTemplate.as_view(), name='adduser'),
+	url(r'^catgorylist/$', CategoryList.as_view(), name='catgorylist'),
+	url(r'^fetchcat/$', FetchCategory.as_view(), name='fetchcat'),
 	url(r'^userchangepassword/$', ChangePassword.as_view(), name='userchangepassword'),
 	url(r'^activateuser/(?P<key>.+)/$', ActivateDeactivateUserAccount.as_view(), name='activateuser'),
+	url(r'^activatecategory/(?P<key>.+)/$', ActivateDeactivateCategory.as_view(), name='activatecategory'),
 	
 	]

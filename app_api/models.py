@@ -43,3 +43,14 @@ class User(AbstractUser):
     class Meta:
         db_table = "auth_user"
 
+class Category(models.Model):
+    category = models.CharField(max_length=500, blank=True, null=True, default='')
+    categoryid = models.CharField(max_length=500, blank=True, null=True, default='')
+    added = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+    is_primary = models.BooleanField(default = 0)
+
+    class Meta:
+        db_table = "category"
+
+# 

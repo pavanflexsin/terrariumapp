@@ -13,7 +13,7 @@
     </h1>
     <ol class="breadcrumb">
       <li><a href="{% url 'admindashboard' %}"><i class="fa fa-dashboard"></i>Admin</a></li>
-      <li class="active"><a href="{% url 'cmslist' %}">Cms List</a></li>
+      <li class="active"><a href="{% url 'catgorylist' %}">Category List</a></li>
     </ol>
   </section>
   <section class="content">
@@ -22,71 +22,41 @@
                     <div class="box">
                       <div class="box-body">
                         <div class="row">
-                        <form method="get" id="customersearch" action="">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                <select class="form-control" name="language" onchange='this.form.submit()'>
-                                <option value="">Select Language</option>
-                                    {% get_current_language as LANGUAGE_CODE %}
-                                    {% get_available_languages as LANGUAGES %}
-                                    {% get_language_info_list for LANGUAGES as languages %}
-                                    {% for language in languages %}
-                                      <option class="form-control" value="{{ language.code }}" 
-                                      {% if request.GET.language == language.code %} selected {% endif %}>
-                                        {% if language.code == "en" %}
-                                            English
-                                        {% elif language.code == "zh-hans" %}
-                                          Simplified Chinese
-                                        {% else %}
-                                          Traditional Chinese
-                                        {% endif %}
-                                      </option>
-                                  {% endfor %}
-                                  </select>
-                                </div>
-                            </div>
+                          <div class="row">
                               <div class="col-md-6">
-                              <!-- <button type="submit" class="btn btn-primary">Search</button> -->
-                                <a href="{% url 'addcms' %}" class="btn btn-primary">Add Cms</a>
+                                <a href="{% url 'fetchcat' %}" class="btn btn-primary"> Fetch Category</a>
                               </div>
                           </div>
-                        </form>
-                      <div id="html">
+                          <div id="html">
                            <table id="example2" class="table table-bordered table-hover">
                           <thead>
                           <tr>
                             <th>Sr. No</th>
-                            <th>Title</th>
-                            <th>Heading</th>
-                            <th>Content</th>
-                            <th>Language</th>
-                            <th>Updated </th>
+                            <th>Category Name</th>
+                            <th>Status</th>
                             <th>Action</th>
                           </tr>
                           </thead>
                           <tbody>
-                          {% if  responselistquery %}
-                            {% for emailtem in responselistquery %}
+                          {% if  categorylist %}
+                            {% for emailtem in categorylist %}
                               <tr id="blog_{{blog.id}}">
                                 <td>{{forloop.counter}}</td>
-                                <td>{{emailtem.title|linebreaks|truncatechars:25}}</td>
-                                <td>{{emailtem.heading|linebreaks|truncatechars:25}}</td>
-                                <td>
-                                {% autoescape off %} 
-                                    {{ emailtem.content|striptags|truncatechars:50}} 
-                                {% endautoescape %}"
+                                <td>{{emailtem.category}}</td>
+                              <td> 
+                                {% if emailtem.is_primary %}
+                                  <span style="color: green">Active</span>
+                                {% else %}
+                                  <span style="color: red">Inactive</span>
+                                {% endif %}
                                 </td>
-
-                                  {% if emailtem.language == "en" %}
-                                    <td>English</td>
-                                  {% elif emailtem.language == "zh-hans"  %}
-                                    <td>Simplified Chinese</td>
-                                  {% else %}
-                                  <td>Traditional Chinese</td>
-                                  {% endif %}
-                                  <td>{{emailtem.updated }}</td>
                                 <td>
-                                <a href="{% url 'editcms' emailtem.id %}" class="btn btn-primary">Edit</a>
+                                {% if data.is_primary %}
+                                <a href="{% url 'activatecategory' emailtem.id %}" class="btn btn-primary">Deactivate</a>
+                                {% else %}
+                                <a href="{% url 'activatecategory' emailtem.id %}" class="btn btn-primary">Activate</a>
+                                {% endif %}
+
                                 </td>
                               </tr>
                             {% endfor %}
