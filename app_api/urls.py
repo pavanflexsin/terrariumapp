@@ -8,6 +8,7 @@ urlpatterns = [
 		url(r'^changepassword/$', UserLoginChangePassword.as_view(), name='userloginchangepassword'),
 		url(r'^facebookgooglelogin/$', FacebookGoogleLogin.as_view(), name='facebookgooglelogin'),
 		url(r'^categorylist/$', CategoryList.as_view(), name='categorylist'),
+		url(r'^showvideoslist/$', GetAllShowsAccordingCategory.as_view(), name='showvideoslist'),
 		url(r'^activateaccount/(?P<key>.+)/$', ActivateUserAccount.as_view(), name='activateaccount'),
 
 	]

@@ -388,6 +388,7 @@ class CategoryList(View ):
         cate = Category.objects.all()
         return render(request, self.template,{'categorylist':cate})
 
+
 class FetchCategory(View ):
     template = 'admin_template/cms/categorylist.html'
     @cache_control(no_cache=True, must_revalidate=True, no_store=True)
@@ -402,17 +403,41 @@ class FetchCategory(View ):
         try:
             for p in get_list.json():
                 cat = Category()
+                cat.type_id  = "1"
                 cat.category  = p['category_name']
                 cat.categoryid  = p['category_id']
                 cat.is_primary  = True
                 cat.save()
         except:
             pass
+        get_list1 = requests.get("http://163.172.102.165:25461/player_api.php?username=taylor&password=taylor&action=get_vod_categories")
+        try:
+            for p in get_list1.json():
+                cat = Category()
+                cat.category  = p['category_name']
+                cat.type_id  = "2"
+                cat.categoryid  = p['category_id']
+                cat.is_primary  = True
+                cat.save()
+        except:
+            pass
+
+        get_list2 = requests.get("http://163.172.102.165:25461/player_api.php?username=taylor&password=taylor&action=get_series_categories")
+        try:
+            for p in get_list2.json():
+                cat = Category()
+                cat.category  = p['category_name']
+                cat.categoryid  = p['category_id']
+                cat.is_primary  = True
+                cat.type_id  = "3"
+                cat.save()
+        except:
+            pass
         messages.add_message(request, messages.SUCCESS, "Category Fetch Successfully.")
         return redirect('catgorylist')
 
-class ActivateDeactivateCategory(View):
 
+class ActivateDeactivateCategory(View):
     @cache_control(no_cache=True, must_revalidate=True, no_store=True)
     def get(self, request, key, *args, **kwargs):
 

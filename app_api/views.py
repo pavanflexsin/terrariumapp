@@ -7,6 +7,7 @@ from rest_framework.views import APIView
 from terrarium_app.common import SiteUrl, SendMail
 from django.template import Template, Context
 from django.views import View
+import requests
 from django.shortcuts import render, redirect, render_to_response, HttpResponse, get_object_or_404
 
 
@@ -219,12 +220,13 @@ class CategoryList(APIView):
 	"""  Category List """
 	def get(self, request, *args, **kwargs):
 
-		cat = Category.objects.filter(is_primary = True)
+		cat = Category.objects.filter(is_primary = True).order_by('-id')
 		cat_list = []
 		for x in cat:
 			cat_list.append({
 				'catgoryname':x.category,
 				'categoryid': x.categoryid,
+				'type': x.type_id,
 				'id': x.id
 				})
 		content = {
@@ -233,3 +235,137 @@ class CategoryList(APIView):
 			'message' : "Sucess",
 		}
 		return Response(content)
+
+
+class GetAllShowsAccordingCategory(APIView):
+
+	""" Category List  """
+	def post(self, request, *args, **kwargs):
+		if 'type' not in request.data or 'categoryid' not in request.data:
+			content = {
+			'response': None,
+			'statusCode': 0,
+			'message' : "Parameter Missing."
+			}
+			return Response(content)
+		datalist = []
+		if str(request.data['type']) == "1":
+			make_url = "http://163.172.102.165:25461/player_api.php?username=taylor&password=taylor&action=get_live_streams&category_id="+str(request.data['categoryid'])
+			get_list2 = requests.get(make_url)
+			try:
+				for p in get_list2.json():
+					datalist.append({
+					'name':p['name'],
+					'stream_type':p['stream_type'],
+					'stream_id':p['stream_id'],
+					'category_id':p['category_id'],
+					'stream_icon':p['stream_icon'],
+					'epg_channel_id':p['epg_channel_id']
+					})
+			except:
+				pass
+
+		elif str(request.data['type']) == "2":
+			make_url = "http://163.172.102.165:25461/player_api.php?username=taylor&password=taylor&action=get_vod_streams&category_id="+str(request.data['categoryid'])
+			get_list2 = requests.get(make_url)
+			try:
+				for p in get_list2.json():
+					datalist.append({
+					'name':p['name'],
+					'stream_id':p['stream_id'],
+					'stream_type':p['stream_type'],
+					'category_id':p['category_id']
+					})
+			except:
+				pass
+		else:
+			make_url = "http://163.172.102.165:25461/player_api.php?username=taylor&password=taylor&action=get_series&category_id="+str(request.data['categoryid'])
+			get_list2 = requests.get(make_url)
+			try:
+				for p in get_list2.json():
+					datalist.append({
+					'name':p['name'],
+					'series_id':p['series_id'],
+					'cover':p['cover'],
+					'category_id':p['category_id'],
+					'genre':p['genre'],
+					'plot':p['plot'],
+					'director':p['director'],
+					'backdrop_path':p['backdrop_path']
+					})
+			except:
+				pass
+
+		content = {
+		'response': datalist,
+		'statusCode': 1,
+		'message' : "Sucess",
+		}
+		return Response(content)
+
+
+
+# class GetAllShowsAccordingWithOutCategory(APIView):
+
+# 	""" Category List  """
+# 	def post(self, request, *args, **kwargs):
+# 		if 'type' not in request.data or 'categoryid' not in request.data:
+# 			content = {
+# 				'response': None,
+# 				'statusCode': 0,
+# 				'message' : "Parameter Missing."
+# 			}
+# 			return Response(content)
+# 		cat = Category.objects.filter(is_primary = True).order_by('id')
+# 		full_list = []
+# 		for x in cat:
+# 			if str(x.type_id) == "2":
+# 				make_url = "http://163.172.102.165:25461/player_api.php?username=taylor&password=taylor&action=get_vod_streams&category_id="+str()
+# 				datalist = []
+# 				get_list2 = requests.get(make_url)
+# 	        	try:
+# 		            for p in get_list2.json():
+# 		            	datalist.append({
+# 		            		'name':p['name'],
+# 		            		'stream_id':p['stream_id'],
+# 		            		'stream_type':p['stream_type'],
+# 		            		'category_id':p['category_id']
+# 		            		})
+# 		        except:
+# 		        	pass
+# 		        full_list.append({
+# 		        	'categoryname':x.category,
+# 		        	'categoryid':x.categoryid,
+# 		        	'type':x.type_id,
+# 		        	'datalist':datalist
+# 		        	})
+# 			else:
+# 				make_url = "http://163.172.102.165:25461/player_api.php?username=taylor&password=taylor&action=get_series&category_id="+str(request.data['categoryid'])
+# 				get_list2 = requests.get(make_url)
+# 	        	try:
+# 		            for p in get_list2.json():
+# 		            	datalist.append({
+# 		            		'name':p['name'],
+# 		            		'series_id':p['series_id'],
+# 		            		'cover':p['cover'],
+# 		            		'category_id':p['category_id'],
+# 		            		'genre':p['genre'],
+# 		            		'plot':p['plot'],
+# 		            		'director':p['director'],
+# 		            		'backdrop_path':p['backdrop_path']
+# 		            		})
+# 		        except:
+# 		        	pass
+# 		        full_list.append({
+# 		        	'categoryname':x.category,
+# 		        	'categoryid':x.categoryid,
+# 		        	'type':x.type_id,
+# 		        	'datalist':datalist
+# 		        	})
+
+# 		content = {
+# 			'response': full_list,
+# 			'statusCode': 1,
+# 			'message' : "Sucess",
+# 		}
+# 		return Response(content)

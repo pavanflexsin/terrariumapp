@@ -46,6 +46,7 @@ class User(AbstractUser):
 class Category(models.Model):
     category = models.CharField(max_length=500, blank=True, null=True, default='')
     categoryid = models.CharField(max_length=500, blank=True, null=True, default='')
+    type_id = models.CharField(max_length=500, blank=True, null=True, default='')
     added = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     is_primary = models.BooleanField(default = 0)
