@@ -313,7 +313,7 @@ class GetAllShowsAccordingWithOutCategory(APIView):
 		cat = Category.objects.filter(is_primary = True, type_id = "2").order_by('id')
 		full_list = []
 		for x in cat:
-			if 'record' in request.data:
+			if request.data['record'] != "":
 				make_url = "http://163.172.102.165:25461/player_api.php?username=taylor&password=taylor&action=get_vod_streams&category_id="+str(x.categoryid)+"&items_per_page"+str(request.data['record'])
 			else:	
 				make_url = "http://163.172.102.165:25461/player_api.php?username=taylor&password=taylor&action=get_vod_streams&category_id="+str(x.categoryid)
