@@ -9,7 +9,7 @@ from django.template import Template, Context
 from django.views import View
 import requests
 from django.shortcuts import render, redirect, render_to_response, HttpResponse, get_object_or_404
-
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
 
@@ -274,7 +274,8 @@ class GetAllShowsAccordingCategory(APIView):
 					'name':p['name'],
 					'stream_id':p['stream_id'],
 					'stream_type':p['stream_type'],
-					'category_id':p['category_id']
+					'category_id':p['category_id'],
+					'stream_icon':''
 					})
 			except:
 				pass
@@ -305,67 +306,40 @@ class GetAllShowsAccordingCategory(APIView):
 
 
 
-# class GetAllShowsAccordingWithOutCategory(APIView):
+class GetAllShowsAccordingWithOutCategory(APIView):
 
-# 	""" Category List  """
-# 	def post(self, request, *args, **kwargs):
-# 		if 'type' not in request.data or 'categoryid' not in request.data:
-# 			content = {
-# 				'response': None,
-# 				'statusCode': 0,
-# 				'message' : "Parameter Missing."
-# 			}
-# 			return Response(content)
-# 		cat = Category.objects.filter(is_primary = True).order_by('id')
-# 		full_list = []
-# 		for x in cat:
-# 			if str(x.type_id) == "2":
-# 				make_url = "http://163.172.102.165:25461/player_api.php?username=taylor&password=taylor&action=get_vod_streams&category_id="+str()
-# 				datalist = []
-# 				get_list2 = requests.get(make_url)
-# 	        	try:
-# 		            for p in get_list2.json():
-# 		            	datalist.append({
-# 		            		'name':p['name'],
-# 		            		'stream_id':p['stream_id'],
-# 		            		'stream_type':p['stream_type'],
-# 		            		'category_id':p['category_id']
-# 		            		})
-# 		        except:
-# 		        	pass
-# 		        full_list.append({
-# 		        	'categoryname':x.category,
-# 		        	'categoryid':x.categoryid,
-# 		        	'type':x.type_id,
-# 		        	'datalist':datalist
-# 		        	})
-# 			else:
-# 				make_url = "http://163.172.102.165:25461/player_api.php?username=taylor&password=taylor&action=get_series&category_id="+str(request.data['categoryid'])
-# 				get_list2 = requests.get(make_url)
-# 	        	try:
-# 		            for p in get_list2.json():
-# 		            	datalist.append({
-# 		            		'name':p['name'],
-# 		            		'series_id':p['series_id'],
-# 		            		'cover':p['cover'],
-# 		            		'category_id':p['category_id'],
-# 		            		'genre':p['genre'],
-# 		            		'plot':p['plot'],
-# 		            		'director':p['director'],
-# 		            		'backdrop_path':p['backdrop_path']
-# 		            		})
-# 		        except:
-# 		        	pass
-# 		        full_list.append({
-# 		        	'categoryname':x.category,
-# 		        	'categoryid':x.categoryid,
-# 		        	'type':x.type_id,
-# 		        	'datalist':datalist
-# 		        	})
+	""" Category List  """
+	def post(self, request, *args, **kwargs):
+		cat = Category.objects.filter(is_primary = True, type_id = "2").order_by('id')
+		full_list = []
+		for x in cat:
+			if 'record' in request.data:
+				make_url = "http://163.172.102.165:25461/player_api.php?username=taylor&password=taylor&action=get_vod_streams&category_id="+str(x.categoryid)+"&items_per_page"+str(request.data['record'])
+			else:	
+				make_url = "http://163.172.102.165:25461/player_api.php?username=taylor&password=taylor&action=get_vod_streams&category_id="+str(x.categoryid)
+			datalist = []
+			get_list2 = requests.get(make_url)
+			try:
+			    for p in get_list2.json():
+			    	datalist.append({
+			    		'name':p['name'],
+			    		'stream_id':p['stream_id'],
+			    		'stream_type':p['stream_type'],
+			    		'category_id':p['category_id'],
+			    		'stream_icon':''
+			    		})
+			except:
+				pass
+			full_list.append({
+				'categoryname':x.category,
+				'categoryid':x.categoryid,
+				'type':x.type_id,
+				'datalist':datalist
+				})
 
-# 		content = {
-# 			'response': full_list,
-# 			'statusCode': 1,
-# 			'message' : "Sucess",
-# 		}
-# 		return Response(content)
+		content = {
+			'response': full_list,
+			'statusCode': 1,
+			'message' : "Sucess",
+		}
+		return Response(content)

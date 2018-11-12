@@ -9,6 +9,7 @@ urlpatterns = [
 		url(r'^facebookgooglelogin/$', FacebookGoogleLogin.as_view(), name='facebookgooglelogin'),
 		url(r'^categorylist/$', CategoryList.as_view(), name='categorylist'),
 		url(r'^showvideoslist/$', GetAllShowsAccordingCategory.as_view(), name='showvideoslist'),
+		url(r'^showallvideoslist/$', GetAllShowsAccordingWithOutCategory.as_view(), name='showallvideoslist'),
 		url(r'^activateaccount/(?P<key>.+)/$', ActivateUserAccount.as_view(), name='activateaccount'),
 
 	]
