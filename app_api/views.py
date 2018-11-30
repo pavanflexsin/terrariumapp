@@ -306,31 +306,58 @@ class GetAllShowsAccordingCategory(APIView):
 
 
 
-class GetAllShowsAccordingWithOutCategory(APIView):
+class GetAllShowsAccordingWithOutCategorySeries(APIView):
 
 	""" Category List  """
 	def post(self, request, *args, **kwargs):
-		cat = Category.objects.filter(is_primary = True, type_id = "2").order_by('id')
+		cat = Category.objects.filter(is_primary = True, type_id = request.data['type_id']).order_by('id')
 		full_list = []
-		for x in cat:
-			if request.data['record'] != "":
-				make_url = "http://163.172.102.165:25461/player_api.php?username=taylor&password=taylor&action=get_vod_streams&category_id="+str(x.categoryid)+"&items_per_page"+str(request.data['record'])
-			else:	
-				make_url = "http://163.172.102.165:25461/player_api.php?username=taylor&password=taylor&action=get_vod_streams&category_id="+str(x.categoryid)
-			datalist = []
-			get_list2 = requests.get(make_url)
-			try:
-			    for p in get_list2.json():
-			    	datalist.append({
-			    		'name':p['name'],
-			    		'stream_id':p['stream_id'],
-			    		'stream_type':p['stream_type'],
-			    		'category_id':p['category_id'],
-			    		'stream_icon':''
-			    		})
-			except:
-				pass
-			full_list.append({
+		if str(request.data['type_id']) == "3":
+			for x in cat:
+				if 'record' in request.data and request.data['record'] != "":
+					make_url = "http://163.172.102.165:25461/player_api.php?username=taylor&password=taylor&action=get_series&category_id="+str(x.categoryid)+"&items_per_page="+str(request.data['record'])
+				else:	
+					make_url = "http://163.172.102.165:25461/player_api.php?username=taylor&password=taylor&action=get_series&category_id="+str(x.categoryid)
+				datalist = []
+				get_list2 = requests.get(make_url)
+				try:
+				    for p in get_list2.json():
+				    	datalist.append({
+				    		'series_id': p['series_id'],
+				    		'cover':  p['cover'],
+				    		'genre': p['genre'],
+				    		'category_id': p['category_id'],
+				    		'cast': p['category_id'],
+				    		'plot': p['plot'],
+				    		'director': p['director'],
+				    		'backdrop_path': p['backdrop_path'],
+				    		'youtube_trailer': p['youtube_trailer'],
+				    		})
+				except:
+					pass
+				full_list.append({
+					'categoryname':x.category,
+					'categoryid':x.categoryid,
+					'type':x.type_id,
+					'datalist':datalist
+					})
+		else:
+			for x in cat:
+				make_url = "http://163.172.102.165:25461/player_api.php?username=taylor&password=taylor&action=get_live_streams&category_id="+str(x.categoryid)
+				get_list2 = requests.get(make_url)
+				try:
+					for p in get_list2.json():
+						datalist.append({
+							'name':p['name'],
+							'stream_type':p['stream_type'],
+							'stream_id':p['stream_id'],
+							'category_id':p['category_id'],
+							'stream_icon':p['stream_icon'],
+							'epg_channel_id':p['epg_channel_id']
+						})
+				except:
+					pass
+				full_list.append({
 				'categoryname':x.category,
 				'categoryid':x.categoryid,
 				'type':x.type_id,
@@ -339,6 +366,43 @@ class GetAllShowsAccordingWithOutCategory(APIView):
 
 		content = {
 			'response': full_list,
+			'statusCode': 1,
+			'message' : "Sucess",
+		}
+		return Response(content)
+
+
+class GetAllShowSeriesShow(APIView):
+
+	""" Category List  """
+	def post(self, request, *args, **kwargs):
+		datalist = []
+		if str(request.data['type']) == "3":
+			make_url = "http://163.172.102.165:25461/player_api.php?username=taylor&password=taylor&action=get_series_info&series_id="+str(request.data['seriesid'])
+			get_list2 = requests.get(make_url)
+			datajson = get_list2.json()['episodes']
+			try:
+			    for p in datajson:
+			    	for t in datajson[p]:
+				    	datalist.append({
+				    		'episode': t,
+				    		})
+			except:
+				pass
+		else:
+			make_url = "http://163.172.102.165:25461/player_api.php?username=taylor&password=taylor&action=get_live_streams&stream_id="+str(request.data['streamid'])
+			get_list2 = requests.get(make_url)
+			datajson = get_list2.json()['epg_listings']
+			try:
+			    for p in datajson:
+			    	datalist.append({
+			    		'episode': p,
+			    		})
+			except:
+				pass
+
+		content = {
+			'response': datalist,
 			'statusCode': 1,
 			'message' : "Sucess",
 		}

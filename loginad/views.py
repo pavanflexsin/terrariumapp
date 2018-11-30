@@ -410,6 +410,7 @@ class FetchCategory(View ):
                 cat.save()
         except:
             pass
+        
         get_list1 = requests.get("http://163.172.102.165:25461/player_api.php?username=taylor&password=taylor&action=get_vod_categories")
         try:
             for p in get_list1.json():
