@@ -194,7 +194,7 @@ class FacebookGoogleLogin(APIView):
 				saveuser = User.objects.get(email = request.data['email'])
 				saveuser.is_active = True
 				saveuser.email = request.data['email']
-				saveuser.facebooklogin = request.data['googlelogin']
+				saveuser.googlelogin = request.data['googlelogin']
 				saveuser.save()
 				content = {
 					'response': {'userid':saveuser.id,'email':saveuser.email},
@@ -206,7 +206,7 @@ class FacebookGoogleLogin(APIView):
 				saveuser = user()
 				saveuser.is_active = True
 				saveuser.email = request.data['email']
-				saveuser.facebooklogin = request.data['googlelogin']
+				saveuser.googlelogin = request.data['googlelogin']
 				saveuser.save()
 				content = {
 					'response': {'userid':saveuser.id,'email':saveuser.email},
@@ -214,6 +214,7 @@ class FacebookGoogleLogin(APIView):
 					'message' : "Sucess",
 				}
 				return Response(content)
+
 
 class CategoryList(APIView):
 
@@ -224,10 +225,10 @@ class CategoryList(APIView):
 		cat_list = []
 		for x in cat:
 			cat_list.append({
-				'catgoryname':x.category,
-				'categoryid': x.categoryid,
-				'type': x.type_id,
-				'id': x.id
+					'catgoryname':x.category,
+					'categoryid': x.categoryid,
+					'type': x.type_id,
+					'id': x.id
 				})
 		content = {
 			'response': cat_list,
@@ -255,12 +256,12 @@ class GetAllShowsAccordingCategory(APIView):
 			try:
 				for p in get_list2.json():
 					datalist.append({
-					'name':p['name'],
-					'stream_type':p['stream_type'],
-					'stream_id':p['stream_id'],
-					'category_id':p['category_id'],
-					'stream_icon':p['stream_icon'],
-					'epg_channel_id':p['epg_channel_id']
+						'name':p['name'],
+						'stream_type':p['stream_type'],
+						'stream_id':p['stream_id'],
+						'category_id':p['category_id'],
+						'stream_icon':p['stream_icon'],
+						'epg_channel_id':p['epg_channel_id']
 					})
 			except:
 				pass
@@ -271,11 +272,11 @@ class GetAllShowsAccordingCategory(APIView):
 			try:
 				for p in get_list2.json():
 					datalist.append({
-					'name':p['name'],
-					'stream_id':p['stream_id'],
-					'stream_type':p['stream_type'],
-					'category_id':p['category_id'],
-					'stream_icon':''
+						'name':p['name'],
+						'stream_id':p['stream_id'],
+						'stream_type':p['stream_type'],
+						'category_id':p['category_id'],
+						'stream_icon':''
 					})
 			except:
 				pass
@@ -285,14 +286,15 @@ class GetAllShowsAccordingCategory(APIView):
 			try:
 				for p in get_list2.json():
 					datalist.append({
-					'name':p['name'],
-					'series_id':p['series_id'],
-					'cover':p['cover'],
-					'category_id':p['category_id'],
-					'genre':p['genre'],
-					'plot':p['plot'],
-					'director':p['director'],
-					'backdrop_path':p['backdrop_path']
+			    		'series_id': p['series_id'],
+			    		'cover':  p['cover'],
+			    		'genre': p['genre'],
+			    		'category_id': p['category_id'],
+			    		'cast': p['category_id'],
+			    		'plot': p['plot'],
+			    		'director': p['director'],
+			    		'backdrop_path': p['backdrop_path'],
+			    		'youtube_trailer': p['youtube_trailer'],
 					})
 			except:
 				pass
@@ -318,20 +320,21 @@ class GetAllShowsAccordingWithOutCategorySeries(APIView):
 					make_url = "http://163.172.102.165:25461/player_api.php?username=taylor&password=taylor&action=get_series&category_id="+str(x.categoryid)+"&items_per_page="+str(request.data['record'])
 				else:	
 					make_url = "http://163.172.102.165:25461/player_api.php?username=taylor&password=taylor&action=get_series&category_id="+str(x.categoryid)
+				
 				datalist = []
 				get_list2 = requests.get(make_url)
 				try:
 				    for p in get_list2.json():
 				    	datalist.append({
-				    		'series_id': p['series_id'],
-				    		'cover':  p['cover'],
-				    		'genre': p['genre'],
-				    		'category_id': p['category_id'],
-				    		'cast': p['category_id'],
-				    		'plot': p['plot'],
-				    		'director': p['director'],
-				    		'backdrop_path': p['backdrop_path'],
-				    		'youtube_trailer': p['youtube_trailer'],
+					    		'series_id': p['series_id'],
+					    		'cover':  p['cover'],
+					    		'genre': p['genre'],
+					    		'category_id': p['category_id'],
+					    		'cast': p['category_id'],
+					    		'plot': p['plot'],
+					    		'director': p['director'],
+					    		'backdrop_path': p['backdrop_path'],
+					    		'youtube_trailer': p['youtube_trailer'],
 				    		})
 				except:
 					pass
@@ -341,6 +344,28 @@ class GetAllShowsAccordingWithOutCategorySeries(APIView):
 					'type':x.type_id,
 					'datalist':datalist
 					})
+		elif  str(request.data['type_id']) == "3":
+			for x in cat:
+				make_url = "http://163.172.102.165:25461/player_api.php?username=taylor&password=taylor&action=get_vod_streams&category_id="++str(x.categoryid)
+				get_list2 = requests.get(make_url)
+				try:
+					for p in get_list2.json():
+						datalist.append({
+							'name':p['name'],
+							'stream_id':p['stream_id'],
+							'stream_type':p['stream_type'],
+							'category_id':p['category_id'],
+							'stream_icon':''
+						})
+				except:
+					pass
+				full_list.append({
+					'categoryname':x.category,
+					'categoryid':x.categoryid,
+					'type':x.type_id,
+					'datalist':datalist
+				})
+
 		else:
 			for x in cat:
 				make_url = "http://163.172.102.165:25461/player_api.php?username=taylor&password=taylor&action=get_live_streams&category_id="+str(x.categoryid)
@@ -358,10 +383,10 @@ class GetAllShowsAccordingWithOutCategorySeries(APIView):
 				except:
 					pass
 				full_list.append({
-				'categoryname':x.category,
-				'categoryid':x.categoryid,
-				'type':x.type_id,
-				'datalist':datalist
+					'categoryname':x.category,
+					'categoryid':x.categoryid,
+					'type':x.type_id,
+					'datalist':datalist
 				})
 
 		content = {
@@ -377,7 +402,7 @@ class GetAllShowSeriesShow(APIView):
 	""" Category List  """
 	def post(self, request, *args, **kwargs):
 		datalist = []
-		if str(request.data['type']) == "3":
+		if str(request.data['type_id']) == "3":
 			make_url = "http://163.172.102.165:25461/player_api.php?username=taylor&password=taylor&action=get_series_info&series_id="+str(request.data['seriesid'])
 			get_list2 = requests.get(make_url)
 			datajson = get_list2.json()['episodes']
