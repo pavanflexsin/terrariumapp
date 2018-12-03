@@ -409,6 +409,7 @@ class GetAllShowSeriesShow(APIView):
 			try:
 			    for p in datajson:
 			    	for t in datajson[p]:
+			    		t.update({'direct_source' : "http://primemediatv.co.uk:80/movie/TayLorTodd100Restreram/TayLorTodd100Restreram/14821.mkv"})
 				    	datalist.append({
 				    		'episode': t,
 				    		})
