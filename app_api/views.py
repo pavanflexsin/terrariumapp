@@ -419,9 +419,10 @@ class GetAllShowSeriesShow(APIView):
 		else:
 			make_url = "http://163.172.102.165:25461/player_api.php?username=taylor&password=taylor&action=get_live_streams&stream_id="+str(request.data['streamid'])
 			get_list2 = requests.get(make_url)
-			datajson = get_list2.json()['epg_listings']
+			datajson = get_list2.json()
 			try:
 			    for p in datajson:
+	    			p.update({'direct_source' : "http://primemediatv.co.uk:80/movie/TayLorTodd100Restreram/TayLorTodd100Restreram/14821.mkv"})
 			    	datalist.append({
 			    		'episode': p,
 			    		})
