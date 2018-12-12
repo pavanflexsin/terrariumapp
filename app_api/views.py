@@ -314,6 +314,7 @@ class GetAllShowsAccordingWithOutCategorySeries(APIView):
 	def post(self, request, *args, **kwargs):
 		cat = Category.objects.filter(is_primary = True, type_id = request.data['type_id']).order_by('id')
 		full_list = []
+		datalist = []
 		if str(request.data['type_id']) == "3":
 			for x in cat:
 				if 'record' in request.data and request.data['record'] != "":
@@ -321,7 +322,7 @@ class GetAllShowsAccordingWithOutCategorySeries(APIView):
 				else:	
 					make_url = "http://163.172.102.165:25461/player_api.php?username=taylor&password=taylor&action=get_series&category_id="+str(x.categoryid)
 				
-				datalist = []
+				
 				get_list2 = requests.get(make_url)
 				try:
 				    for p in get_list2.json():
