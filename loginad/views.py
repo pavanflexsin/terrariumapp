@@ -12,7 +12,7 @@ from django.contrib import messages
 from app_api.models import *
 import os, shutil
 from terrarium_app.common import *
-from django.contrib import messages
+
 from uuid import uuid4
 import json
 from django.db.models import Case, Value, When

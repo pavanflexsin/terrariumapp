@@ -26,6 +26,7 @@ class User(AbstractUser):
     age = models.CharField(default = 0,  max_length=500, blank=True, null=True)
     gender = models.IntegerField(choices= GENDER, default = 1,  blank=True, null=True)
     grade = models.CharField(max_length= 500, blank=True, null=True, default='')
+    forgotpasswordlink = models.CharField(max_length= 500, blank=True, null=True, default='')
     mobilenumber = models.CharField(max_length= 500, blank=True, null=True, default='')
     forpasswordotp = models.CharField(max_length=500, blank=True, null=True, default='')
     facebooklogin = models.CharField(max_length=500, blank=True, null=True, default='')

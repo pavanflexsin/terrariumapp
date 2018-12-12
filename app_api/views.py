@@ -10,7 +10,9 @@ from django.views import View
 import requests
 from django.shortcuts import render, redirect, render_to_response, HttpResponse, get_object_or_404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-
+import random, string
+from django.contrib import messages
+from django.http import HttpResponseRedirect, HttpResponse, Http404, JsonResponse
 
 
 class UserRegistered(APIView):
@@ -60,6 +62,7 @@ class UserRegistered(APIView):
 			'message' : "Something went wrong."
 		}
 		return Response(content)
+
 
 
 class UserLogin(APIView):
@@ -143,6 +146,85 @@ class UserLoginChangePassword(APIView):
 				'message' : "User does not exists in our database."
 			}
 			return Response(content)
+
+
+class ForgotPasswordEmailView(APIView):
+
+
+	def post(self, request, format=None):
+
+		if 'email' not in request.data:
+			content = {
+				'response': None,
+				'statusCode': 0,
+				'message' : "Parameter Missing."
+			}
+			return Response(content)
+
+		try:
+			adminforgot = User.objects.get(email = request.data['email'], is_superuser = 0)
+			if adminforgot.is_active == True:
+				try:
+					x = ''.join(random.choice(string.ascii_uppercase + string.ascii_lowercase + string.digits) for _ in range(16))
+					t = Template("<html><body>Dear {{ username }}, <br><br>Please click on <a href='{{URL}}''>Click</a> and forgot your password.<br><br>Thanks,<br>Team</body></html>")
+					html = t.render(Context({'username': adminforgot.username,'URL':str(SiteUrl.site_url(request))+"/api/v1/forgotchangepassword/"+ str(x)}))
+					'''' -----Email Settings----- '''
+					objemail = SendMail.mail(request, "Forgot Password Link", request.data['email'], html )
+
+					if objemail:
+						adminforgot.forgotpasswordlink = str(x)
+						adminforgot.save()
+						content = {
+							'response': '',
+							'statusCode': 1,
+							'message' : "Forgot password link has been sent to your registered email id.",
+						}
+					else:
+						content = {
+							'response': '',
+							'statusCode': 0,
+							'message': "Something went wrong.",
+						}
+				except:
+					content = {
+						'response': '',
+						'statusCode': 0,
+						'message': "Something went wrong.",
+					}
+
+			else:
+				content = {
+					'response': '',
+					'statusCode': 0,
+					'message' : "Your account is not active",
+				}
+		except:
+			content = {
+				'response': '',
+				'statusCode': 0,
+				'message' : "Email does not exist in database.",
+			}
+		return Response(content)
+
+
+class ChangeForgotPasswordEmail(View):
+	template = 'admin_template/app_user_forgot.html'
+
+	def get(self, request, key, *args, **kwargs):
+		return render(request, self.template)
+
+	def post(self, request, key, *args, **kwargs):
+		password = request.POST['newpassword']
+		try: 
+			user = User.objects.get(forgotpasswordlink=str(key), is_active = True)
+			user.set_password(password)
+			user.forgotpasswordlink = ""
+			user.save()
+			messages.add_message(request, messages.SUCCESS, "Your password has been changed.")
+			return HttpResponseRedirect(str(request.path))
+		except User.DoesNotExist:
+			messages.add_message(request, messages.ERROR, "invalid forgot password link.")
+			return HttpResponseRedirect(str(request.path))
 
 
 class ActivateUserAccount(View):
@@ -417,7 +499,7 @@ class GetAllShowSeriesShow(APIView):
 			except:
 				pass
 		else:
-			make_url = "http://163.172.102.165:25461/player_api.php?username=taylor&password=taylor&action=get_live_streams&stream_id="+str(request.data['streamid'])
+			make_url = "http://163.172.102.165:25461/player_api.php?username=taylor&password=taylor&action=get_live_streams&stream_id="+str(request.data['c'])
 			get_list2 = requests.get(make_url)
 			datajson = get_list2.json()
 			try:
